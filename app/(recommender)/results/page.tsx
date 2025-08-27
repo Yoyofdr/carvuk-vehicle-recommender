@@ -10,8 +10,8 @@ import ResultCard from '../components/ResultCard'
 import EmptyState from '../components/EmptyState'
 import { VehicleRecommendation } from '@/lib/services/VehicleRankingService'
 import { InsuranceRecommendation } from '@/lib/services/InsuranceRankingService'
-import UsedVehiclesSection from '../components/UsedVehiclesSection'
-import ScrapingDashboard from '../components/ScrapingDashboard'
+// import UsedVehiclesSection from '../components/UsedVehiclesSection'
+// import ScrapingDashboard from '../components/ScrapingDashboard'
 
 type Recommendation = VehicleRecommendation | InsuranceRecommendation
 
@@ -220,16 +220,9 @@ export default function ResultsPage() {
 
       {/* Content based on active tab */}
       {activeTab === 'dashboard' ? (
-        <ScrapingDashboard />
+        <div className="text-center py-12">Dashboard coming soon...</div>
       ) : activeTab === 'used' ? (
-        <UsedVehiclesSection 
-          filters={{
-            minPrice: Array.isArray(answers.monthlyBudget) && typeof answers.monthlyBudget[0] === 'number' ? answers.monthlyBudget[0] * 48 : undefined,
-            maxPrice: Array.isArray(answers.monthlyBudget) && typeof answers.monthlyBudget[1] === 'number' ? answers.monthlyBudget[1] * 48 : undefined,
-            minYear: 2015,
-            maxYear: new Date().getFullYear()
-          }}
-        />
+        <div className="text-center py-12">Used vehicles section coming soon...</div>
       ) : (
         /* Results Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

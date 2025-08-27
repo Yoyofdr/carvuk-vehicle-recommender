@@ -449,22 +449,22 @@ export default function SolicitarOfertasPage() {
                   </div>
                   
                   <p className="font-medium text-neutral-900 mb-2">
-                    {config.marca} {config.modelo}
+                    {(config as any).marca} {(config as any).modelo}
                   </p>
                   
                   <div className="space-y-1 text-sm text-neutral-600 mb-4">
-                    <p>Motor: {config.motor}</p>
-                    <p>Versión: {config.version}</p>
-                    <p>Color: {config.color}</p>
-                    {config.extras.length > 0 && (
-                      <p>Extras: {config.extras.length} opcionales</p>
+                    <p>Motor: {(config as any).motor}</p>
+                    <p>Versión: {(config as any).version}</p>
+                    <p>Color: {(config as any).color}</p>
+                    {(config as any).extras?.length > 0 && (
+                      <p>Extras: {(config as any).extras.length} opcionales</p>
                     )}
                   </div>
                   
                   <div className="pt-4 border-t border-neutral-200">
                     <p className="text-sm text-neutral-600 mb-1">Precio configurado</p>
                     <p className="text-xl font-bold text-brand">
-                      {formatCLP(config.total)}
+                      {formatCLP((config as any).total)}
                     </p>
                   </div>
                 </div>

@@ -1,5 +1,14 @@
 // Common AI-related types used across the application
-import { ScrapedVehicle } from './scrapers'
+// import { ScrapedVehicle } from './scrapers'
+
+// Temporary type definition
+interface ScrapedVehicle {
+  id: string
+  brand: string
+  model: string
+  year: number
+  price: number
+}
 
 export interface AIAnalysis {
   realMarketValue: number
