@@ -10,10 +10,10 @@ import { cn } from '@/lib/utils'
 interface DiscoveryData {
   paymentMode: 'monthly' | 'cash'
   budget: { min: number; max: number } | null
-  bodyType: string | null
-  fuel: string | null
+  bodyTypes: string[]
+  fuelTypes: string[]
   features: string[]
-  brand: string | null
+  brands: string[]
 }
 
 interface Vehicle {
@@ -249,18 +249,18 @@ export default function ResultadosPage() {
           }
         }
         
-        // Filter by body type
-        if (parsed.bodyType && v.bodyType !== parsed.bodyType) {
+        // Filter by body types (if any selected)
+        if (parsed.bodyTypes && parsed.bodyTypes.length > 0 && !parsed.bodyTypes.includes(v.bodyType)) {
           return false
         }
         
-        // Filter by fuel type
-        if (parsed.fuel && v.fuelType !== parsed.fuel) {
+        // Filter by fuel types (if any selected)
+        if (parsed.fuelTypes && parsed.fuelTypes.length > 0 && !parsed.fuelTypes.includes(v.fuelType)) {
           return false
         }
         
-        // Filter by brand
-        if (parsed.brand && parsed.brand !== 'any' && v.brand !== parsed.brand) {
+        // Filter by brands (if any selected)
+        if (parsed.brands && parsed.brands.length > 0 && !parsed.brands.includes(v.brand)) {
           return false
         }
         
@@ -397,19 +397,19 @@ export default function ResultadosPage() {
                 {formatCLP(discoveryData.budget.min)} - {formatCLP(discoveryData.budget.max)}
               </span>
             )}
-            {discoveryData.bodyType && (
+            {discoveryData.bodyTypes && discoveryData.bodyTypes.length > 0 && (
               <span className="px-3 py-1 bg-neutral-100 rounded-full">
-                {bodyTypeLabels[discoveryData.bodyType]}
+                {discoveryData.bodyTypes.map(bt => bodyTypeLabels[bt] || bt).join(', ')}
               </span>
             )}
-            {discoveryData.fuel && (
+            {discoveryData.fuelTypes && discoveryData.fuelTypes.length > 0 && (
               <span className="px-3 py-1 bg-neutral-100 rounded-full">
-                {fuelTypeLabels[discoveryData.fuel]}
+                {discoveryData.fuelTypes.map(ft => fuelTypeLabels[ft] || ft).join(', ')}
               </span>
             )}
-            {discoveryData.brand && discoveryData.brand !== 'any' && (
+            {discoveryData.brands && discoveryData.brands.length > 0 && (
               <span className="px-3 py-1 bg-neutral-100 rounded-full">
-                {discoveryData.brand}
+                {discoveryData.brands.join(', ')}
               </span>
             )}
           </div>

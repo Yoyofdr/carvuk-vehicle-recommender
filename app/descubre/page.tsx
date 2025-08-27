@@ -64,10 +64,10 @@ export default function DiscoverPage() {
   const [currentStep, setCurrentStep] = useState<Step>('budget')
   const [paymentMode, setPaymentMode] = useState<PaymentMode>('cash')
   const [budgetValues, setBudgetValues] = useState({ min: '', max: '' })
-  const [selectedBodyType, setSelectedBodyType] = useState<string | null>(null)
-  const [selectedFuel, setSelectedFuel] = useState<string | null>(null)
+  const [selectedBodyTypes, setSelectedBodyTypes] = useState<string[]>([])
+  const [selectedFuelTypes, setSelectedFuelTypes] = useState<string[]>([])
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([])
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null)
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [, forceUpdate] = useState(0)
 
   // Computed values
@@ -101,10 +101,10 @@ export default function DiscoverPage() {
   const canContinue = () => {
     switch (currentStep) {
       case 'budget': return isBudgetValid()
-      case 'bodyType': return selectedBodyType !== null
-      case 'fuel': return selectedFuel !== null
+      case 'bodyType': return selectedBodyTypes.length > 0
+      case 'fuel': return selectedFuelTypes.length > 0
       case 'features': return selectedFeatures.length > 0
-      case 'brand': return true
+      case 'brand': return true // Marcas son opcionales
       default: return false
     }
   }
@@ -126,10 +126,10 @@ export default function DiscoverPage() {
           min: parseInt(budgetValues.min), 
           max: parseInt(budgetValues.max)
         } : null,
-        bodyType: selectedBodyType,
-        fuel: selectedFuel,
+        bodyTypes: selectedBodyTypes,
+        fuelTypes: selectedFuelTypes,
         features: selectedFeatures,
-        brand: selectedBrand
+        brands: selectedBrands
       }
       
       localStorage.setItem('carDiscovery', JSON.stringify(data))
@@ -178,6 +178,30 @@ export default function DiscoverPage() {
       prev.includes(featureId) 
         ? prev.filter(f => f !== featureId)
         : [...prev, featureId]
+    )
+  }
+
+  const toggleBodyType = (typeId: string) => {
+    setSelectedBodyTypes(prev => 
+      prev.includes(typeId) 
+        ? prev.filter(t => t !== typeId)
+        : [...prev, typeId]
+    )
+  }
+
+  const toggleFuelType = (fuelId: string) => {
+    setSelectedFuelTypes(prev => 
+      prev.includes(fuelId) 
+        ? prev.filter(f => f !== fuelId)
+        : [...prev, fuelId]
+    )
+  }
+
+  const toggleBrand = (brand: string) => {
+    setSelectedBrands(prev => 
+      prev.includes(brand) 
+        ? prev.filter(b => b !== brand)
+        : [...prev, brand]
     )
   }
 
@@ -319,10 +343,13 @@ export default function DiscoverPage() {
           <div className="space-y-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-neutral-900 mb-3">
-                ¿Qué tipo de auto buscas?
+                ¿Qué tipos de auto te interesan?
               </h2>
               <p className="text-lg text-neutral-600">
-                Selecciona el tipo de carrocería que prefieres
+                Selecciona todos los tipos de carrocería que prefieres
+              </p>
+              <p className="text-sm text-neutral-500 mt-2">
+                Puedes elegir varios o solo uno
               </p>
             </div>
 
@@ -331,15 +358,15 @@ export default function DiscoverPage() {
                 <button
                   key={type.id}
                   type="button"
-                  onClick={() => setSelectedBodyType(type.id)}
+                  onClick={() => toggleBodyType(type.id)}
                   className={cn(
                     "p-6 rounded-xl border-2 text-center transition-all relative",
-                    selectedBodyType === type.id
+                    selectedBodyTypes.includes(type.id)
                       ? "border-brand bg-brand/5"
                       : "border-neutral-200 hover:border-neutral-300 bg-white"
                   )}
                 >
-                  {selectedBodyType === type.id && (
+                  {selectedBodyTypes.includes(type.id) && (
                     <div className="absolute top-3 right-3 w-6 h-6 bg-brand rounded-full flex items-center justify-center">
                       <Check className="h-4 w-4 text-white" />
                     </div>
@@ -358,10 +385,13 @@ export default function DiscoverPage() {
           <div className="space-y-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-neutral-900 mb-3">
-                ¿Qué combustible prefieres?
+                ¿Qué tipos de combustible consideras?
               </h2>
               <p className="text-lg text-neutral-600">
-                Elige según tu estilo de conducción y economía
+                Elige todos los tipos según tu estilo de conducción y economía
+              </p>
+              <p className="text-sm text-neutral-500 mt-2">
+                Puedes seleccionar múltiples opciones
               </p>
             </div>
 
@@ -370,15 +400,15 @@ export default function DiscoverPage() {
                 <button
                   key={fuel.id}
                   type="button"
-                  onClick={() => setSelectedFuel(fuel.id)}
+                  onClick={() => toggleFuelType(fuel.id)}
                   className={cn(
                     "p-6 rounded-xl border-2 transition-all relative text-left",
-                    selectedFuel === fuel.id
+                    selectedFuelTypes.includes(fuel.id)
                       ? "border-brand bg-brand/5"
                       : "border-neutral-200 hover:border-neutral-300 bg-white"
                   )}
                 >
-                  {selectedFuel === fuel.id && (
+                  {selectedFuelTypes.includes(fuel.id) && (
                     <div className="absolute top-3 right-3 w-6 h-6 bg-brand rounded-full flex items-center justify-center">
                       <Check className="h-4 w-4 text-white" />
                     </div>
@@ -447,45 +477,40 @@ export default function DiscoverPage() {
                 ¿Tienes alguna marca preferida?
               </h2>
               <p className="text-lg text-neutral-600">
-                O déjanos sugerirte las mejores opciones
+                Selecciona todas las marcas que te interesan
+              </p>
+              <p className="text-sm text-neutral-500 mt-2">
+                O déjalo vacío para ver todas las opciones
               </p>
             </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedBrand(null)
-                handleNext()
-              }}
-              className="w-full p-6 rounded-xl border-2 border-neutral-200 hover:border-neutral-300 bg-white transition-all"
-            >
-              <p className="text-xl font-semibold text-neutral-900 mb-2">
-                No tengo preferencia
-              </p>
-              <p className="text-sm text-neutral-600">
-                Muéstrame las mejores opciones de todas las marcas
-              </p>
-            </button>
 
             <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
               {BRANDS.map((brand) => (
                 <button
                   key={brand}
                   type="button"
-                  onClick={() => {
-                    setSelectedBrand(brand)
-                    handleNext()
-                  }}
+                  onClick={() => toggleBrand(brand)}
                   className={cn(
-                    "p-4 rounded-lg border transition-all",
-                    selectedBrand === brand
+                    "p-4 rounded-lg border-2 transition-all relative",
+                    selectedBrands.includes(brand)
                       ? "border-brand bg-brand/5"
                       : "border-neutral-200 hover:border-neutral-300 bg-white"
                   )}
                 >
+                  {selectedBrands.includes(brand) && (
+                    <div className="absolute top-2 right-2 w-5 h-5 bg-brand rounded-full flex items-center justify-center">
+                      <Check className="h-3 w-3 text-white" />
+                    </div>
+                  )}
                   <p className="font-medium text-neutral-900 text-center">{brand}</p>
                 </button>
               ))}
+            </div>
+
+            <div className="bg-neutral-50 p-4 rounded-lg">
+              <p className="text-sm text-neutral-600">
+                💡 <span className="font-medium">Consejo:</span> Si no seleccionas ninguna marca, te mostraremos las mejores opciones de todas las marcas disponibles
+              </p>
             </div>
           </div>
         )}
@@ -500,22 +525,20 @@ export default function DiscoverPage() {
             Anterior
           </button>
 
-          {currentStep !== 'brand' && (
-            <button
-              type="button"
-              onClick={handleNext}
-              disabled={!canContinue()}
-              className={cn(
-                "px-8 py-3 rounded-xl font-medium transition-all flex items-center gap-2",
-                canContinue()
-                  ? "bg-brand text-white hover:bg-brand/90"
-                  : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
-              )}
-            >
-              <span>{isLastStep ? 'Ver resultados' : 'Siguiente'}</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={handleNext}
+            disabled={!canContinue()}
+            className={cn(
+              "px-8 py-3 rounded-xl font-medium transition-all flex items-center gap-2",
+              canContinue()
+                ? "bg-brand text-white hover:bg-brand/90"
+                : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
+            )}
+          >
+            <span>{isLastStep ? 'Ver resultados' : 'Siguiente'}</span>
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
       </main>
 
