@@ -6,6 +6,7 @@ import { ArrowLeft, Star, ChevronRight, Filter, Heart, Loader2 } from 'lucide-re
 import Link from 'next/link'
 import { formatCLP } from '@/lib/utils/currency'
 import { cn } from '@/lib/utils'
+import { filterVehicles, type MockVehicle } from '@/lib/data/mockVehicleDiscovery'
 
 interface DiscoveryData {
   paymentMode: 'monthly' | 'cash'
@@ -98,18 +99,67 @@ export default function ResultadosPage() {
         
         console.log('Fetching vehicles with params:', params.toString())
         
-        // Fetch vehicles from API
-        const response = await fetch(`/api/discovery/vehicles?${params}`)
-        const result = await response.json()
+        let vehicles: Vehicle[] = []
         
-        if (!response.ok) {
-          throw new Error(result.error || 'Failed to fetch vehicles')
+        try {
+          // Try to fetch from API first (works in development)
+          const response = await fetch(`/api/discovery/vehicles?${params}`)
+          
+          if (response.ok) {
+            const result = await response.json()
+            vehicles = result.vehicles || []
+            console.log('Vehicles fetched from API:', vehicles.length)
+          } else {
+            throw new Error('API not available')
+          }
+        } catch (apiError) {
+          // Fallback to mock data (for static deployment like GitHub Pages)
+          console.log('API failed, using mock data:', apiError)
+          
+          // Build filters from parsed data
+          const filters: any = {
+            paymentMode: parsed.paymentMode
+          }
+          
+          if (parsed.budget) {
+            filters.minPrice = parsed.budget.min
+            filters.maxPrice = parsed.budget.max
+          }
+          
+          if (parsed.bodyTypes.length > 0) {
+            filters.bodyTypes = parsed.bodyTypes
+          }
+          
+          if (parsed.fuelTypes.length > 0) {
+            // Map Spanish fuel types to English
+            const fuelMap: Record<string, string> = {
+              'gasoline': 'gasoline',
+              'bencina': 'gasoline',
+              'diesel': 'diesel',
+              'diésel': 'diesel',
+              'hybrid': 'hybrid',
+              'híbrido': 'hybrid',
+              'electric': 'electric',
+              'eléctrico': 'electric'
+            }
+            filters.fuelTypes = parsed.fuelTypes.map(fuel => fuelMap[fuel.toLowerCase()] || 'gasoline')
+          }
+          
+          if (parsed.brands.length > 0) {
+            filters.brands = parsed.brands
+          }
+          
+          if (parsed.features.length > 0) {
+            filters.features = parsed.features
+          }
+          
+          const mockVehicles = filterVehicles(filters) as Vehicle[]
+          vehicles = mockVehicles
+          console.log('Vehicles loaded from mock data:', vehicles.length)
         }
         
-        console.log('Vehicles fetched:', result.vehicles?.length || 0)
-        
         // Calculate match scores and reasons
-        const vehiclesWithScores = (result.vehicles || []).map((v: Vehicle) => {
+        const vehiclesWithScores = vehicles.map((v: Vehicle) => {
           let matchScore = 70 // Base score
           const matchReasons: string[] = []
           
