@@ -80,12 +80,15 @@ export class VehicleRankingService {
         
         if (matchesBodyType) {
           const bodyTypeLabels: Record<string, string> = {
-            sedan: 'Sedán',
-            suv: 'SUV',
-            hatchback: 'Hatchback',
+            sedan: 'Saloons',
+            suv: 'SUVs',
+            hatchback: 'Hatchbacks',
             pickup: 'Pickup',
-            coupe: 'Coupé',
-            minivan: 'Minivan'
+            coupe: 'Coupes',
+            minivan: 'People carriers',
+            wagon: 'Estate cars',
+            convertible: 'Convertibles',
+            sports: 'Sports cars'
           }
           reasons.push(`Carrocería ${bodyTypeLabels[vehicle.bodyType]}`)
         }

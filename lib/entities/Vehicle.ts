@@ -4,7 +4,7 @@ export interface Vehicle {
   model: string
   year: number
   condition: 'new' | 'used'
-  bodyType: 'sedan' | 'suv' | 'hatchback' | 'pickup' | 'coupe' | 'minivan'
+  bodyType: 'sedan' | 'suv' | 'hatchback' | 'pickup' | 'coupe' | 'minivan' | 'wagon' | 'convertible' | 'sports'
   fuelType: 'gasoline' | 'diesel' | 'hybrid' | 'electric'
   transmission: 'manual' | 'automatic'
   engineSize: number // in liters

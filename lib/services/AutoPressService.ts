@@ -318,7 +318,11 @@ export class AutoPressService {
       mas_probable: index === 1, // Mid variant is usually most common
       carroceria: model.toLowerCase().includes('suv') || model.toLowerCase().includes('x-trail') || 
                   model.toLowerCase().includes('rav4') || model.toLowerCase().includes('tracker') ? 
-                  'SUV' : 'Sedan',
+                  'SUV' : model.toLowerCase().includes('hatchback') || model.toLowerCase().includes('golf') ? 
+                  'Hatchback' : model.toLowerCase().includes('coupe') || model.toLowerCase().includes('sport') ? 
+                  'Coupe' : model.toLowerCase().includes('wagon') || model.toLowerCase().includes('estate') ? 
+                  'Wagon' : model.toLowerCase().includes('convertible') || model.toLowerCase().includes('cabrio') ? 
+                  'Convertible' : 'Sedan',
       tipo: 'Particular'
     }))
 

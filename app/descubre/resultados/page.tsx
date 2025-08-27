@@ -207,14 +207,15 @@ export default function ResultadosPage() {
   }
 
   const bodyTypeLabels: Record<string, string> = {
-    suv: 'SUV y 4x4',
-    sedan: 'Berlina',
-    hatchback: 'Urbano',
+    suv: 'SUVs',
+    sedan: 'Saloons',
+    hatchback: 'Hatchbacks',
     pickup: 'Pickup',
-    coupe: 'Deportivo',
-    minivan: 'Monovolumen',
-    wagon: 'Ranchera',
-    convertible: 'Descapotable',
+    coupe: 'Coupes',
+    minivan: 'People carriers',
+    wagon: 'Estate cars',
+    convertible: 'Convertibles',
+    sports: 'Sports cars',
     commercial: 'Comercial',
     other: 'Otro'
   }

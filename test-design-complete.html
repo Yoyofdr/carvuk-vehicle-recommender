@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Design Completo - Carvuk</title>
+    <link rel="stylesheet" href="https://yoyofdr.github.io/carvuk-vehicle-recommender/_next/static/css/fab5b373766d006a.css">
+    <style>
+        /* Estilos de respaldo en caso de que el CSS externo no cargue */
+        :root {
+            --brand: #5d5fe8;
+            --neutral-50: #f9fafb;
+            --neutral-100: #f2f4f7;
+            --neutral-200: #e4e7ec;
+            --neutral-300: #d0d5dd;
+            --neutral-400: #98a2b3;
+            --neutral-500: #667085;
+            --neutral-600: #475467;
+            --neutral-700: #344054;
+            --neutral-800: #1d2939;
+            --neutral-900: #101828;
+        }
+        
+        .text-brand { color: var(--brand) !important; }
+        .bg-brand { background-color: var(--brand) !important; }
+        .bg-brand\/5 { background-color: rgba(93, 95, 232, 0.05) !important; }
+        .bg-brand\/10 { background-color: rgba(93, 95, 232, 0.1) !important; }
+        .bg-gradient-to-b { background-image: linear-gradient(to bottom, var(--tw-gradient-stops)) !important; }
+        .from-brand\/5 { --tw-gradient-from: rgba(93, 95, 232, 0.05) !important; }
+        .to-white { --tw-gradient-to: white !important; }
+        
+        .text-neutral-600 { color: var(--neutral-600) !important; }
+        .text-neutral-900 { color: var(--neutral-900) !important; }
+        .bg-white { background-color: white !important; }
+        .border-neutral-200 { border-color: var(--neutral-200) !important; }
+        
+        .min-h-screen { min-height: 100vh !important; }
+        .container { width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .text-center { text-align: center; }
+        
+        .h-16 { height: 4rem; }
+        .w-16 { width: 4rem; }
+        .rounded-full { border-radius: 9999px; }
+        .rounded-xl { border-radius: 0.875rem; }
+        .border-b { border-bottom-width: 1px; }
+        .border-2 { border-width: 2px; }
+        
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        
+        .max-w-4xl { max-width: 56rem; }
+        .max-w-5xl { max-width: 64rem; }
+        
+        .grid { display: grid; }
+        .md\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .md\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .md\\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+        
+        .hidden { display: none; }
+        .md\\:flex { display: flex; }
+        
+        .sm\\:flex-row { flex-direction: row; }
+        
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        
+        .hover\\:bg-brand\\/90:hover { background-color: rgba(93, 95, 232, 0.9) !important; }
+        .hover\\:border-neutral-300:hover { border-color: var(--neutral-300) !important; }
+        .hover\\:text-neutral-900:hover { color: var(--neutral-900) !important; }
+        
+        @media (min-width: 768px) {
+            .md\\:text-5xl { font-size: 3rem; line-height: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-white">
+        <!-- Navigation -->
+        <nav class="border-b border-neutral-200">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-8">
+                        <h1 class="text-2xl font-bold text-brand">Carvuk</h1>
+                        <div class="hidden md:flex gap-6">
+                            <a href="#" class="text-neutral-600 hover:text-neutral-900">Autos nuevos</a>
+                            <a href="#" class="text-neutral-600 hover:text-neutral-900">Autos usados</a>
+                            <a href="#" class="text-neutral-600 hover:text-neutral-900">Vende tu auto</a>
+                            <a href="#" class="text-neutral-600 hover:text-neutral-900">Financiamiento</a>
+                        </div>
+                    </div>
+                    <button class="text-neutral-600 hover:text-neutral-900">Iniciar sesión</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-b from-brand/5 to-white py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">
+                        Encuentra el auto perfecto para ti
+                    </h2>
+                    <p class="text-xl text-neutral-600 mb-8">
+                        Responde algunas preguntas y te mostraremos las mejores opciones 
+                        según tus necesidades y presupuesto.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#" class="bg-brand text-white rounded-xl px-8 py-4 font-medium hover:bg-brand/90 transition-all flex items-center justify-center gap-2 text-lg">
+                            <span>Descubre tu auto ideal</span>
+                        </a>
+                        <a href="#" class="bg-white text-neutral-700 border-2 border-neutral-200 rounded-xl px-8 py-4 font-medium hover:border-neutral-300 transition-all flex items-center justify-center text-lg">
+                            Ya sé qué auto quiero
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it Works -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <h3 class="text-3xl font-bold text-center text-neutral-900 mb-12">
+                    Cómo funciona Carvuk
+                </h3>
+                <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-brand/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-brand">1</span>
+                        </div>
+                        <h4 class="font-semibold text-neutral-900 mb-2">Configura tu auto</h4>
+                        <p class="text-neutral-600">
+                            Elige marca, modelo y especificaciones que deseas
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-brand/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-brand">2</span>
+                        </div>
+                        <h4 class="font-semibold text-neutral-900 mb-2">Recibe ofertas</h4>
+                        <p class="text-neutral-600">
+                            Los concesionarios te envían sus mejores ofertas
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-brand/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-brand">3</span>
+                        </div>
+                        <h4 class="font-semibold text-neutral-900 mb-2">Compara y elige</h4>
+                        <p class="text-neutral-600">
+                            Compara ofertas y elige la que más te convenga
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits -->
+        <section class="bg-neutral-50 py-16">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+                    <div class="text-center">
+                        <div class="w-8 h-8 bg-brand rounded-full mx-auto mb-3"></div>
+                        <h4 class="font-semibold text-neutral-900 mb-1">Ahorra dinero</h4>
+                        <p class="text-sm text-neutral-600">
+                            Hasta 20% de descuento en promedio
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-8 h-8 bg-brand rounded-full mx-auto mb-3"></div>
+                        <h4 class="font-semibold text-neutral-900 mb-1">Sin compromisos</h4>
+                        <p class="text-sm text-neutral-600">
+                            Compara ofertas sin presión
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-8 h-8 bg-brand rounded-full mx-auto mb-3"></div>
+                        <h4 class="font-semibold text-neutral-900 mb-1">Red de concesionarios</h4>
+                        <p class="text-sm text-neutral-600">
+                            Más de 50 concesionarios
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-8 h-8 bg-brand rounded-full mx-auto mb-3"></div>
+                        <h4 class="font-semibold text-neutral-900 mb-1">Garantía total</h4>
+                        <p class="text-sm text-neutral-600">
+                            Autos nuevos con garantía
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Brands -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <h3 class="text-2xl font-bold text-center text-neutral-900 mb-8">
+                    Marcas populares
+                </h3>
+                <div class="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
+                    <a href="#" class="bg-white border border-neutral-200 rounded-xl p-4 text-center hover:shadow-md transition-all">
+                        <div class="h-12 flex items-center justify-center mb-2">
+                            <span class="text-2xl">🚗</span>
+                        </div>
+                        <p class="text-sm font-medium text-neutral-900">Toyota</p>
+                    </a>
+                    <a href="#" class="bg-white border border-neutral-200 rounded-xl p-4 text-center hover:shadow-md transition-all">
+                        <div class="h-12 flex items-center justify-center mb-2">
+                            <span class="text-2xl">🚗</span>
+                        </div>
+                        <p class="text-sm font-medium text-neutral-900">Chevrolet</p>
+                    </a>
+                    <a href="#" class="bg-white border border-neutral-200 rounded-xl p-4 text-center hover:shadow-md transition-all">
+                        <div class="h-12 flex items-center justify-center mb-2">
+                            <span class="text-2xl">🚗</span>
+                        </div>
+                        <p class="text-sm font-medium text-neutral-900">Nissan</p>
+                    </a>
+                    <a href="#" class="bg-white border border-neutral-200 rounded-xl p-4 text-center hover:shadow-md transition-all">
+                        <div class="h-12 flex items-center justify-center mb-2">
+                            <span class="text-2xl">🚗</span>
+                        </div>
+                        <p class="text-sm font-medium text-neutral-900">Hyundai</p>
+                    </a>
+                    <a href="#" class="bg-white border border-neutral-200 rounded-xl p-4 text-center hover:shadow-md transition-all">
+                        <div class="h-12 flex items-center justify-center mb-2">
+                            <span class="text-2xl">🚗</span>
+                        </div>
+                        <p class="text-sm font-medium text-neutral-900">Mazda</p>
+                    </a>
+                    <a href="#" class="bg-white border border-neutral-200 rounded-xl p-4 text-center hover:shadow-md transition-all">
+                        <div class="h-12 flex items-center justify-center mb-2">
+                            <span class="text-2xl">🚗</span>
+                        </div>
+                        <p class="text-sm font-medium text-neutral-900">Volkswagen</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-neutral-200 py-8 mt-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center text-neutral-600">
+                    <p class="font-semibold text-neutral-900 mb-2">Carvuk</p>
+                    <p class="text-sm">© 2024 Carvuk. Todos los derechos reservados.</p>
+                    <p class="text-xs mt-2 text-neutral-500">Powered by AutoPress API</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

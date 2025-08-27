@@ -86,12 +86,14 @@ export const VehicleSteps: StepConfig[] = [
     answerKey: 'bodyTypes',
     required: true,
     options: [
-      { id: 'sedan', label: 'Sedán', description: 'Clásico y eficiente' },
-      { id: 'suv', label: 'SUV', description: 'Espacioso y versátil' },
-      { id: 'hatchback', label: 'Hatchback', description: 'Compacto y ágil' },
-      { id: 'pickup', label: 'Pickup', description: 'Potente y funcional' },
-      { id: 'coupe', label: 'Coupé', description: 'Deportivo y elegante' },
-      { id: 'minivan', label: 'Minivan', description: 'Familiar y amplio' }
+      { id: 'suv', label: 'SUVs', description: 'Espacioso y versátil' },
+      { id: 'hatchback', label: 'Hatchbacks', description: 'Compacto y ágil' },
+      { id: 'sedan', label: 'Saloons', description: 'Clásico y eficiente' },
+      { id: 'coupe', label: 'Coupes', description: 'Deportivo y elegante' },
+      { id: 'wagon', label: 'Estate cars', description: 'Familiar y amplio' },
+      { id: 'minivan', label: 'People carriers', description: 'Familiar y amplio' },
+      { id: 'sports', label: 'Sports cars', description: 'Deportivo y potente' },
+      { id: 'convertible', label: 'Convertibles', description: 'Elegante y abierto' }
     ]
   },
   {

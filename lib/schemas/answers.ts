@@ -4,7 +4,7 @@ export const vehicleAnswersSchema = z.object({
   vehicleCondition: z.enum(['new', 'used']).optional(),
   monthlyBudget: z.tuple([z.number(), z.number()]).optional(),
   downPayment: z.tuple([z.number(), z.number()]).optional(),
-  bodyTypes: z.array(z.enum(['sedan', 'suv', 'hatchback', 'pickup', 'coupe', 'minivan'])).min(1),
+  bodyTypes: z.array(z.enum(['sedan', 'suv', 'hatchback', 'pickup', 'coupe', 'minivan', 'wagon', 'convertible', 'sports'])).min(1),
   fuelTypes: z.array(z.enum(['gasoline', 'diesel', 'hybrid', 'electric'])).optional(),
   transmission: z.enum(['manual', 'automatic', 'any']).optional(),
   usage: z.array(z.enum(['city', 'highway', 'family', 'work', 'offroad', 'sport'])).optional()

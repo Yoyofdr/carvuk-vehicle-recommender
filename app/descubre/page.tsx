@@ -16,93 +16,82 @@ const STEPS: Step[] = ['budget', 'bodyType', 'fuel', 'features', 'brand']
 const BODY_TYPES = [
   { 
     id: 'suv', 
-    label: 'SUV y 4x4', 
+    label: 'SUVs', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M5 11h14l-1-4H6l-1 4zm14 0v6a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-6m14 0H5m0 0l1-4m0 0h12m0 0l1 4" />
-        <circle cx="7.5" cy="14.5" r="1.5" />
-        <circle cx="16.5" cy="14.5" r="1.5" />
-      </svg>
-    )
-  },
-  { 
-    id: 'sedan', 
-    label: 'Berlina', 
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M4 11h16l-1.5-4h-13L4 11zm16 0v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H7v1a1 1 0 01-1 1H5a1 1 0 01-1-1v-5m16 0H4" />
-        <circle cx="7.5" cy="13.5" r="1.5" />
-        <circle cx="16.5" cy="13.5" r="1.5" />
-      </svg>
-    )
-  },
-  { 
-    id: 'minivan', 
-    label: 'Monovolumen', 
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M4 11h16v-3a2 2 0 00-2-2H6a2 2 0 00-2 2v3zm16 0v6a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H7v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-6m16 0H4" />
-        <circle cx="7.5" cy="14.5" r="1.5" />
-        <circle cx="16.5" cy="14.5" r="1.5" />
-        <rect x="7" y="7" width="3" height="3" rx="0.5" />
-        <rect x="14" y="7" width="3" height="3" rx="0.5" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
+        <path d="M3 12h18l-2-4H5l-2 4zm18 0v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4" />
+        <circle cx="7" cy="15" r="1.5" />
+        <circle cx="17" cy="15" r="1.5" />
       </svg>
     )
   },
   { 
     id: 'hatchback', 
-    label: 'Urbano', 
+    label: 'Hatchbacks', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M5 11h14l-2-3.5h-10L5 11zm14 0v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-5m14 0H5" />
-        <circle cx="7.5" cy="13.5" r="1.5" />
-        <circle cx="16.5" cy="13.5" r="1.5" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
+        <path d="M4 12h16l-2-3H6l-2 3zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
+        <circle cx="7" cy="15" r="1.5" />
+        <circle cx="17" cy="15" r="1.5" />
       </svg>
     )
   },
   { 
-    id: 'wagon', 
-    label: 'Ranchera', 
+    id: 'sedan', 
+    label: 'Saloons', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M4 11h16l-1.5-4h-13L4 11zm16 0v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H7v1a1 1 0 01-1 1H5a1 1 0 01-1-1v-5m16 0H4m2-4l.5-1h11l.5 1" />
-        <circle cx="7.5" cy="13.5" r="1.5" />
-        <circle cx="16.5" cy="13.5" r="1.5" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
+        <path d="M4 12h16l-1-3h-14L4 12zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
+        <circle cx="7" cy="15" r="1.5" />
+        <circle cx="17" cy="15" r="1.5" />
       </svg>
     )
   },
   { 
     id: 'coupe', 
-    label: 'Deportivo', 
+    label: 'Coupes', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M5 12h14l-2-4.5h-10L5 12zm14 0v4a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-4m14 0H5" />
-        <circle cx="7.5" cy="14.5" r="1.5" />
-        <circle cx="16.5" cy="14.5" r="1.5" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
+        <path d="M4 12h16l-2-4H6l-2 4zm16 0v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3" />
+        <circle cx="7" cy="15" r="1.5" />
+        <circle cx="17" cy="15" r="1.5" />
       </svg>
     )
   },
   { 
-    id: 'convertible', 
-    label: 'Descapotable', 
+    id: 'wagon', 
+    label: 'Estate cars', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M5 13h14l-2-3h-10l-2 3zm14 0v4a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-4m14 0H5m3-3l1-2h6l1 2" />
-        <circle cx="7.5" cy="15.5" r="1.5" />
-        <circle cx="16.5" cy="15.5" r="1.5" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
+        <path d="M4 12h16l-1-3h-14L4 12zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
+        <path d="M6 9l1-2h10l1 2" />
+        <circle cx="7" cy="15" r="1.5" />
+        <circle cx="17" cy="15" r="1.5" />
       </svg>
     )
   },
   { 
-    id: 'commercial', 
-    label: 'Comercial', 
+    id: 'minivan', 
+    label: 'People carriers', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
-        <path d="M5 11h14V8a1 1 0 00-1-1H6a1 1 0 00-1 1v3zm14 0v6a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-6m14 0H5" />
-        <circle cx="7.5" cy="14.5" r="1.5" />
-        <circle cx="16.5" cy="14.5" r="1.5" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
+        <path d="M4 12h16V9a1 1 0 00-1-1H5a1 1 0 00-1 1v3zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
+        <rect x="7" y="7" width="2" height="2" rx="0.5" />
+        <rect x="15" y="7" width="2" height="2" rx="0.5" />
+        <circle cx="7" cy="15" r="1.5" />
+        <circle cx="17" cy="15" r="1.5" />
       </svg>
     )
+  },
+  { 
+    id: 'empty1', 
+    label: '', 
+    icon: null
+  },
+  { 
+    id: 'empty2', 
+    label: '', 
+    icon: null
   },
 ]
 
@@ -447,41 +436,50 @@ export default function DiscoverPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
               {BODY_TYPES.map((type) => (
                 <button
                   key={type.id}
                   type="button"
-                  onClick={() => toggleBodyType(type.id)}
+                  onClick={() => type.id.startsWith('empty') ? null : toggleBodyType(type.id)}
                   className={cn(
-                    "group relative p-6 rounded-xl border-2 transition-all bg-white",
-                    selectedBodyTypes.includes(type.id)
+                    "group relative p-6 rounded-xl border transition-all bg-white min-h-[120px]",
+                    type.id.startsWith('empty') 
+                      ? "border-neutral-200 cursor-default"
+                      : selectedBodyTypes.includes(type.id)
                       ? "border-brand bg-brand/5"
                       : "border-neutral-200 hover:border-neutral-300"
                   )}
                 >
-                  <div className="flex items-center gap-4">
-                    {/* Checkbox */}
-                    <div className={cn(
-                      "w-5 h-5 rounded border-2 flex items-center justify-center transition-all",
-                      selectedBodyTypes.includes(type.id)
-                        ? "bg-brand border-brand"
-                        : "border-neutral-400 group-hover:border-neutral-600"
-                    )}>
-                      {selectedBodyTypes.includes(type.id) && (
-                        <Check className="h-3 w-3 text-white" />
-                      )}
-                    </div>
+                  {/* Checkbox in top-left corner */}
+                  <div className={cn(
+                    "absolute top-3 left-3 w-5 h-5 rounded border-2 flex items-center justify-center transition-all",
+                    type.id.startsWith('empty')
+                      ? "border-neutral-300"
+                      : selectedBodyTypes.includes(type.id)
+                      ? "bg-brand border-brand"
+                      : "border-neutral-400 group-hover:border-neutral-600"
+                  )}>
+                    {!type.id.startsWith('empty') && selectedBodyTypes.includes(type.id) && (
+                      <Check className="h-3 w-3 text-white" />
+                    )}
+                  </div>
+                  
+                  {/* Centered content */}
+                  <div className="flex flex-col items-center justify-center h-full pt-8">
+                    {/* Icon centered - only show if not empty */}
+                    {type.icon && (
+                      <div className="text-blue-800 mb-3">
+                        {type.icon}
+                      </div>
+                    )}
                     
-                    {/* Icon */}
-                    <div className="text-neutral-700">
-                      {type.icon}
-                    </div>
-                    
-                    {/* Label */}
-                    <p className="font-medium text-neutral-900 text-lg">
-                      {type.label}
-                    </p>
+                    {/* Label centered - only show if not empty */}
+                    {type.label && (
+                      <p className="font-medium text-neutral-900 text-center text-sm">
+                        {type.label}
+                      </p>
+                    )}
                   </div>
                 </button>
               ))}

@@ -1,35 +1,50 @@
 #!/bin/bash
 
-# Script para desplegar en GitHub Pages
-# Reemplaza TU_USUARIO con tu nombre de usuario de GitHub
-
+# Script para desplegar a GitHub Pages
 echo "🚀 Iniciando despliegue a GitHub Pages..."
 
-# Configurar el remote (reemplaza TU_USUARIO)
-echo "⚙️ Configurando remote origin..."
-echo "IMPORTANTE: Reemplaza TU_USUARIO con tu nombre de usuario de GitHub"
-echo ""
-echo "Ejecuta este comando:"
-echo "git remote add origin https://github.com/TU_USUARIO/carvuk-vehicle-recommender.git"
-echo ""
-read -p "Presiona Enter cuando hayas ejecutado el comando..."
+# Limpiar builds anteriores
+echo "🧹 Limpiando builds anteriores..."
+rm -rf .next out/
 
-# Push al main branch
-echo "📤 Pushing to main branch..."
-git push -u origin main
+# Instalar dependencias si es necesario
+echo "📦 Verificando dependencias..."
+npm install
 
-# Crear y push la rama gh-pages
-echo "📦 Creando rama gh-pages..."
+# Construir el proyecto
+echo "🔨 Construyendo el proyecto..."
+npm run build
+
+# Verificar que el build fue exitoso
+if [ ! -d "out" ]; then
+    echo "❌ Error: El directorio 'out' no se creó. El build falló."
+    exit 1
+fi
+
+# Agregar archivo .nojekyll para GitHub Pages
+echo "📝 Agregando .nojekyll..."
+touch out/.nojekyll
+
+# Agregar todos los archivos del build
+echo "📁 Agregando archivos al repositorio..."
+git add -f out/
+
+# Hacer commit
+echo "💾 Haciendo commit..."
+git commit -m "Deploy to GitHub Pages - $(date)"
+
+# Hacer push a la rama principal
+echo "⬆️ Subiendo a la rama principal..."
+git push origin main
+
+# Desplegar a la rama gh-pages
+echo "🌐 Desplegando a GitHub Pages..."
 git subtree push --prefix out origin gh-pages
 
 echo "✅ ¡Despliegue completado!"
+echo "🌍 Tu sitio debería estar disponible en: https://yoyofdr.github.io/carvuk-vehicle-recommender/"
 echo ""
-echo "🌐 Tu sitio estará disponible en:"
-echo "https://TU_USUARIO.github.io/carvuk-vehicle-recommender/"
-echo ""
-echo "📝 Ahora ve a GitHub > Settings > Pages y:"
-echo "1. En 'Source', selecciona 'Deploy from a branch'"
-echo "2. En 'Branch', selecciona 'gh-pages' y '/ (root)'"
-echo "3. Haz clic en 'Save'"
-echo ""
-echo "⏰ El sitio puede tardar unos minutos en estar disponible."
+echo "📋 Notas importantes:"
+echo "   - Asegúrate de que GitHub Pages esté configurado para usar la rama 'gh-pages'"
+echo "   - Puede tomar unos minutos para que los cambios se reflejen"
+echo "   - Si el diseño no se ve correcto, verifica la configuración de GitHub Pages en tu repositorio"

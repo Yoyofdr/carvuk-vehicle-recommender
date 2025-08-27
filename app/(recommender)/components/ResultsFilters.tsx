@@ -93,12 +93,14 @@ export default function ResultsFilters({
       >
         <PillsFilter
           pills={[
-            { id: 'sedan', label: 'Sedán' },
-            { id: 'suv', label: 'SUV' },
-            { id: 'hatchback', label: 'Hatchback' },
-            { id: 'pickup', label: 'Pickup' },
-            { id: 'coupe', label: 'Coupé' },
-            { id: 'minivan', label: 'Minivan' }
+            { id: 'suv', label: 'SUVs' },
+            { id: 'hatchback', label: 'Hatchbacks' },
+            { id: 'sedan', label: 'Saloons' },
+            { id: 'coupe', label: 'Coupes' },
+            { id: 'wagon', label: 'Estate cars' },
+            { id: 'minivan', label: 'People carriers' },
+            { id: 'sports', label: 'Sports cars' },
+            { id: 'convertible', label: 'Convertibles' }
           ]}
           value={filters.bodyTypes || []}
           onChange={(value) => handleFilterChange('bodyTypes', value)}

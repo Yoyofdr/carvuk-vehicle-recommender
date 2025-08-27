@@ -7,6 +7,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  trailingSlash: true,
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/carvuk-vehicle-recommender' : '',
 }
 
 module.exports = nextConfig
