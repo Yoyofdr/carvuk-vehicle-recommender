@@ -120,11 +120,16 @@ export default function DiscoverPage() {
       setCurrentStep(STEPS[currentStepIndex + 1])
     } else {
       // Save data and navigate to results
+      // Get current budget values from inputs if not already saved
+      const currentBudget = budgetValues.min && budgetValues.max 
+        ? budgetValues 
+        : getBudgetInputValues()
+      
       const data = {
         paymentMode,
-        budget: budgetValues.min && budgetValues.max ? { 
-          min: parseInt(budgetValues.min), 
-          max: parseInt(budgetValues.max)
+        budget: currentBudget.min && currentBudget.max ? { 
+          min: parseInt(currentBudget.min), 
+          max: parseInt(currentBudget.max)
         } : null,
         bodyTypes: selectedBodyTypes,
         fuelTypes: selectedFuelTypes,
@@ -132,6 +137,7 @@ export default function DiscoverPage() {
         brands: selectedBrands
       }
       
+      console.log('Saving discovery data:', data)
       localStorage.setItem('carDiscovery', JSON.stringify(data))
       router.push('/descubre/resultados')
     }

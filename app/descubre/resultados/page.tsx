@@ -222,6 +222,161 @@ const allVehicles: Vehicle[] = [
       technology: true,
       comfort: true
     }
+  },
+  {
+    id: '9',
+    brand: 'Ford',
+    model: 'Ranger',
+    version: 'XLT 2.0L',
+    price: 35900000,
+    monthlyPayment: 700000,
+    year: 2024,
+    bodyType: 'pickup',
+    fuelType: 'diesel',
+    matchScore: 86,
+    matchReasons: ['Pickup versátil', 'Gran capacidad de carga', 'Todoterreno'],
+    dealerCount: 4,
+    features: {
+      economy: false,
+      space: true,
+      performance: true,
+      safety: true,
+      technology: false,
+      comfort: false
+    }
+  },
+  {
+    id: '10',
+    brand: 'Honda',
+    model: 'CR-V',
+    version: 'EX AWD',
+    price: 34500000,
+    monthlyPayment: 680000,
+    year: 2024,
+    bodyType: 'suv',
+    fuelType: 'gasoline',
+    matchScore: 91,
+    matchReasons: ['SUV familiar', 'Confiable', 'Espacioso'],
+    dealerCount: 3,
+    features: {
+      economy: true,
+      space: true,
+      performance: false,
+      safety: true,
+      technology: true,
+      comfort: true
+    }
+  },
+  {
+    id: '11',
+    brand: 'Peugeot',
+    model: '208',
+    version: 'GT 1.6',
+    price: 21900000,
+    monthlyPayment: 430000,
+    year: 2024,
+    bodyType: 'hatchback',
+    fuelType: 'gasoline',
+    matchScore: 87,
+    matchReasons: ['Diseño europeo', 'Ciudad y ruta', 'Tecnológico'],
+    dealerCount: 3,
+    features: {
+      economy: true,
+      space: false,
+      performance: true,
+      safety: true,
+      technology: true,
+      comfort: true
+    }
+  },
+  {
+    id: '12',
+    brand: 'Nissan',
+    model: 'Leaf',
+    version: 'E+ 62kWh',
+    price: 42000000,
+    monthlyPayment: 820000,
+    year: 2024,
+    bodyType: 'hatchback',
+    fuelType: 'electric',
+    matchScore: 89,
+    matchReasons: ['100% eléctrico', 'Cero emisiones', 'Ahorro en combustible'],
+    dealerCount: 2,
+    features: {
+      economy: true,
+      space: false,
+      performance: false,
+      safety: true,
+      technology: true,
+      comfort: true
+    }
+  },
+  {
+    id: '13',
+    brand: 'Mazda',
+    model: 'CX-5',
+    version: 'Grand Touring AWD',
+    price: 38900000,
+    monthlyPayment: 760000,
+    year: 2024,
+    bodyType: 'suv',
+    fuelType: 'gasoline',
+    matchScore: 92,
+    matchReasons: ['Premium', 'Diseño elegante', 'Dinámico'],
+    dealerCount: 3,
+    features: {
+      economy: false,
+      space: true,
+      performance: true,
+      safety: true,
+      technology: true,
+      comfort: true
+    }
+  },
+  {
+    id: '14',
+    brand: 'Suzuki',
+    model: 'Swift',
+    version: 'GLX CVT',
+    price: 16900000,
+    monthlyPayment: 330000,
+    year: 2024,
+    bodyType: 'hatchback',
+    fuelType: 'gasoline',
+    matchScore: 84,
+    matchReasons: ['Económico', 'Bajo consumo', 'Ideal ciudad'],
+    discount: 800000,
+    dealerCount: 4,
+    features: {
+      economy: true,
+      space: false,
+      performance: false,
+      safety: false,
+      technology: false,
+      comfort: false
+    }
+  },
+  {
+    id: '15',
+    brand: 'Mitsubishi',
+    model: 'Outlander',
+    version: 'PHEV',
+    price: 48900000,
+    monthlyPayment: 960000,
+    year: 2024,
+    bodyType: 'suv',
+    fuelType: 'hybrid',
+    matchScore: 93,
+    matchReasons: ['Híbrido enchufable', '7 plazas', 'Tecnología avanzada'],
+    dealerCount: 2,
+    features: {
+      economy: true,
+      space: true,
+      performance: true,
+      safety: true,
+      technology: true,
+      comfort: true
+    }
   }
 ]
 
@@ -237,12 +392,13 @@ export default function ResultadosPage() {
     const data = localStorage.getItem('carDiscovery')
     if (data) {
       const parsed = JSON.parse(data) as DiscoveryData
+      console.log('Discovery data loaded:', parsed)
       setDiscoveryData(parsed)
       
       // Filter and sort vehicles based on preferences
       let filtered = allVehicles.filter(v => {
         // Filter by budget
-        if (parsed.budget) {
+        if (parsed.budget && parsed.budget.min && parsed.budget.max) {
           const priceToCheck = parsed.paymentMode === 'monthly' ? v.monthlyPayment || 0 : v.price
           if (priceToCheck < parsed.budget.min || priceToCheck > parsed.budget.max) {
             return false
@@ -266,6 +422,8 @@ export default function ResultadosPage() {
         
         return true
       })
+      
+      console.log('Filtered vehicles:', filtered.length, 'out of', allVehicles.length)
       
       // Calculate match scores based on features
       filtered = filtered.map(v => {
