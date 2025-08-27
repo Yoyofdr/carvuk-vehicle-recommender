@@ -6,7 +6,7 @@ import { ArrowLeft, Star, ChevronRight, Filter, Heart, Loader2 } from 'lucide-re
 import Link from 'next/link'
 import { formatCLP } from '@/lib/utils/currency'
 import { cn } from '@/lib/utils'
-import { filterVehicles, type MockVehicle } from '@/lib/data/mockVehicleDiscovery'
+import { filterVehicles } from '@/lib/data/mockVehicleDiscovery'
 
 interface DiscoveryData {
   paymentMode: 'monthly' | 'cash'
