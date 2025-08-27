@@ -34,6 +34,10 @@ interface Vehicle {
     safety: boolean
     technology: boolean
     comfort: boolean
+    resale: boolean
+    highway: boolean
+    cargo: boolean
+    maintenance: boolean
   }
 }
 
@@ -126,7 +130,11 @@ export default function ResultadosPage() {
               performance: 'Alto rendimiento',
               safety: 'Seguro',
               technology: 'Tecnológico',
-              comfort: 'Confortable'
+              comfort: 'Confortable',
+              resale: 'Buen valor de reventa',
+              highway: 'Ideal para carretera',
+              cargo: 'Gran capacidad de carga',
+              maintenance: 'Fácil mantenimiento'
             }
             
             parsed.features.forEach(feature => {
@@ -462,6 +470,26 @@ export default function ResultadosPage() {
                     {vehicle.features.technology && (
                       <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">
                         Tecnológico
+                      </span>
+                    )}
+                    {vehicle.features.resale && (
+                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">
+                        Buena reventa
+                      </span>
+                    )}
+                    {vehicle.features.highway && (
+                      <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded">
+                        Carretero
+                      </span>
+                    )}
+                    {vehicle.features.cargo && (
+                      <span className="text-xs px-2 py-1 bg-orange-100 text-orange-700 rounded">
+                        Carga
+                      </span>
+                    )}
+                    {vehicle.features.maintenance && (
+                      <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded">
+                        Fácil mantención
                       </span>
                     )}
                   </div>

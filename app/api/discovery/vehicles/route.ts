@@ -20,6 +20,10 @@ interface VehicleResult {
     safety: boolean
     technology: boolean
     comfort: boolean
+    resale: boolean
+    highway: boolean
+    cargo: boolean
+    maintenance: boolean
   }
 }
 
@@ -70,14 +74,27 @@ const estimateFeatures = (brand: string, model: string, price: number) => {
   const performanceBrands = ['BMW', 'Mercedes-Benz', 'Audi', 'Mazda', 'Ford', 'Volkswagen']
   const safetyBrands = ['Volvo', 'Subaru', 'Toyota', 'Honda', 'Mazda', 'Hyundai']
   const techBrands = ['Tesla', 'BMW', 'Mercedes-Benz', 'Audi', 'Kia', 'Hyundai']
+  const resaleBrands = ['Toyota', 'Honda', 'Mazda', 'Subaru', 'Volkswagen']
+  const highwayBrands = ['Mercedes-Benz', 'BMW', 'Audi', 'Volvo', 'Toyota', 'Honda']
+  const cargoBrands = ['Ford', 'Chevrolet', 'Toyota', 'Nissan', 'Mitsubishi']
+  const maintenanceBrands = ['Toyota', 'Honda', 'Hyundai', 'Kia', 'Nissan', 'Chevrolet']
+  
+  const isPickup = model.toLowerCase().includes('hilux') || model.toLowerCase().includes('ranger') || 
+                   model.toLowerCase().includes('frontier') || model.toLowerCase().includes('amarok')
+  const isSUV = model.toLowerCase().includes('suv') || model.toLowerCase().includes('rav4') || 
+                model.toLowerCase().includes('tucson') || model.toLowerCase().includes('x-trail')
   
   return {
     economy: economyBrands.includes(brand) || isBudget,
-    space: model.toLowerCase().includes('suv') || model.toLowerCase().includes('van'),
+    space: isSUV || model.toLowerCase().includes('van'),
     performance: performanceBrands.includes(brand) || isPremium,
     safety: safetyBrands.includes(brand) || isPremium,
     technology: techBrands.includes(brand) || isPremium,
-    comfort: isPremium || price > 25000000
+    comfort: isPremium || price > 25000000,
+    resale: resaleBrands.includes(brand) || isPremium,
+    highway: highwayBrands.includes(brand) || isPremium || isSUV,
+    cargo: cargoBrands.includes(brand) || isPickup || isSUV,
+    maintenance: maintenanceBrands.includes(brand) || isBudget
   }
 }
 

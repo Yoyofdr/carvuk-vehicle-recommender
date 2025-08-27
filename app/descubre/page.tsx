@@ -36,6 +36,10 @@ const FEATURES = [
   { id: 'safety', label: 'Seguridad', icon: '🛡️', desc: 'Máxima protección' },
   { id: 'technology', label: 'Tecnología', icon: '📱', desc: 'Conectividad y asistentes' },
   { id: 'comfort', label: 'Confort', icon: '🛋️', desc: 'Comodidad y equipamiento' },
+  { id: 'resale', label: 'Valor de Reventa', icon: '📈', desc: 'Buena depreciación y respaldo de marca' },
+  { id: 'highway', label: 'Rendimiento en Carretera', icon: '🛣️', desc: 'Estabilidad y consumo en viajes largos' },
+  { id: 'cargo', label: 'Capacidad de Carga', icon: '🚚', desc: 'Maletero y fuerza de arrastre' },
+  { id: 'maintenance', label: 'Mantenimiento y Respaldo', icon: '🔧', desc: 'Talleres, repuestos y garantía' },
 ]
 
 const BRANDS = [
