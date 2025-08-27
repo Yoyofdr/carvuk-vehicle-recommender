@@ -18,10 +18,27 @@ const BODY_TYPES = [
     id: 'suv', 
     label: 'SUVs', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
-        <path d="M3 12h18l-2-4H5l-2 4zm18 0v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4" />
-        <circle cx="7" cy="15" r="1.5" />
-        <circle cx="17" cy="15" r="1.5" />
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* SUV - taller body with characteristic shape */}
+        <g transform="translate(10, 20)">
+          {/* Main body */}
+          <path d="M15 30 L15 25 L20 18 L35 15 L60 15 L75 18 L82 25 L82 30 L82 38 L15 38 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Roof rack lines */}
+          <line x1="30" y1="15" x2="65" y2="15" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Windows */}
+          <rect x="25" y="20" width="15" height="10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <rect x="43" y="20" width="15" height="10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M61 20 L61 30 L72 30 L70 20 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Wheels */}
+          <circle cx="28" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="28" cy="38" r="3" fill="currentColor"/>
+          <circle cx="68" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="68" cy="38" r="3" fill="currentColor"/>
+          {/* Door handles */}
+          <rect x="30" y="32" width="8" height="1.5" fill="currentColor"/>
+          <rect x="48" y="32" width="8" height="1.5" fill="currentColor"/>
+        </g>
       </svg>
     )
   },
@@ -29,10 +46,25 @@ const BODY_TYPES = [
     id: 'hatchback', 
     label: 'Hatchbacks', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
-        <path d="M4 12h16l-2-3H6l-2 3zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
-        <circle cx="7" cy="15" r="1.5" />
-        <circle cx="17" cy="15" r="1.5" />
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* Hatchback - compact with sloped rear */}
+        <g transform="translate(10, 25)">
+          {/* Main body */}
+          <path d="M18 33 L18 28 L25 20 L45 18 L65 20 L75 28 L75 33 L75 38 L18 38 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Windows */}
+          <path d="M28 22 L28 30 L40 30 L40 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M43 22 L43 30 L58 30 L57 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M61 23 L61 30 L70 30 L67 25 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Wheels */}
+          <circle cx="28" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="28" cy="38" r="3" fill="currentColor"/>
+          <circle cx="65" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="65" cy="38" r="3" fill="currentColor"/>
+          {/* Door handle */}
+          <rect x="32" y="32" width="8" height="1.5" fill="currentColor"/>
+          <rect x="48" y="32" width="8" height="1.5" fill="currentColor"/>
+        </g>
       </svg>
     )
   },
@@ -40,10 +72,27 @@ const BODY_TYPES = [
     id: 'sedan', 
     label: 'Saloons', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
-        <path d="M4 12h16l-1-3h-14L4 12zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
-        <circle cx="7" cy="15" r="1.5" />
-        <circle cx="17" cy="15" r="1.5" />
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* Saloon/Sedan - classic three-box design */}
+        <g transform="translate(10, 25)">
+          {/* Main body */}
+          <path d="M15 33 L15 30 L18 28 L22 20 L40 18 L58 20 L70 28 L78 30 L78 33 L78 38 L15 38 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Trunk line */}
+          <path d="M70 30 L78 30" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Windows */}
+          <path d="M25 22 L25 30 L38 30 L38 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M41 22 L41 30 L54 30 L54 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M57 22 L57 30 L66 30 L65 24 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Wheels */}
+          <circle cx="26" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="26" cy="38" r="3" fill="currentColor"/>
+          <circle cx="66" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="66" cy="38" r="3" fill="currentColor"/>
+          {/* Door handles */}
+          <rect x="30" y="32" width="8" height="1.5" fill="currentColor"/>
+          <rect x="46" y="32" width="8" height="1.5" fill="currentColor"/>
+        </g>
       </svg>
     )
   },
@@ -51,10 +100,23 @@ const BODY_TYPES = [
     id: 'coupe', 
     label: 'Coupes', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
-        <path d="M4 12h16l-2-4H6l-2 4zm16 0v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3" />
-        <circle cx="7" cy="15" r="1.5" />
-        <circle cx="17" cy="15" r="1.5" />
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* Coupe - two-door, sporty profile */}
+        <g transform="translate(10, 28)">
+          {/* Main body - lower and sleeker */}
+          <path d="M18 32 L18 30 L22 26 L35 20 L60 20 L72 26 L78 30 L78 32 L78 38 L18 38 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Windows - larger, more slanted */}
+          <path d="M28 24 L28 30 L50 30 L48 24 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M53 24 L53 30 L68 30 L66 26 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Wheels */}
+          <circle cx="28" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="28" cy="38" r="3" fill="currentColor"/>
+          <circle cx="68" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="68" cy="38" r="3" fill="currentColor"/>
+          {/* Door handle - single long handle for 2-door */}
+          <rect x="38" y="32" width="12" height="1.5" fill="currentColor"/>
+        </g>
       </svg>
     )
   },
@@ -62,11 +124,27 @@ const BODY_TYPES = [
     id: 'wagon', 
     label: 'Estate cars', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
-        <path d="M4 12h16l-1-3h-14L4 12zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
-        <path d="M6 9l1-2h10l1 2" />
-        <circle cx="7" cy="15" r="1.5" />
-        <circle cx="17" cy="15" r="1.5" />
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* Estate/Station Wagon - extended rear section */}
+        <g transform="translate(10, 25)">
+          {/* Main body - extended rear */}
+          <path d="M15 33 L15 30 L18 28 L22 20 L40 18 L65 18 L75 20 L80 28 L80 33 L80 38 L15 38 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Windows */}
+          <path d="M25 22 L25 30 L36 30 L36 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M39 22 L39 30 L50 30 L50 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M53 22 L53 30 L64 30 L64 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M67 22 L67 30 L75 30 L74 22 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Wheels */}
+          <circle cx="26" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="26" cy="38" r="3" fill="currentColor"/>
+          <circle cx="68" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="68" cy="38" r="3" fill="currentColor"/>
+          {/* Door handles */}
+          <rect x="28" y="32" width="8" height="1.5" fill="currentColor"/>
+          <rect x="42" y="32" width="8" height="1.5" fill="currentColor"/>
+          <rect x="56" y="32" width="8" height="1.5" fill="currentColor"/>
+        </g>
       </svg>
     )
   },
@@ -74,24 +152,81 @@ const BODY_TYPES = [
     id: 'minivan', 
     label: 'People carriers', 
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-12 h-12">
-        <path d="M4 12h16V9a1 1 0 00-1-1H5a1 1 0 00-1 1v3zm16 0v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4" />
-        <rect x="7" y="7" width="2" height="2" rx="0.5" />
-        <rect x="15" y="7" width="2" height="2" rx="0.5" />
-        <circle cx="7" cy="15" r="1.5" />
-        <circle cx="17" cy="15" r="1.5" />
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* People Carrier/Minivan - tall, boxy */}
+        <g transform="translate(10, 20)">
+          {/* Main body - taller and boxier */}
+          <path d="M18 35 L18 15 L70 15 L78 18 L80 25 L80 35 L80 38 L18 38 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Windows - larger and more */}
+          <rect x="22" y="18" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <rect x="37" y="18" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <rect x="52" y="18" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M67 18 L67 30 L74 30 L73 18 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Wheels */}
+          <circle cx="28" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="28" cy="38" r="3" fill="currentColor"/>
+          <circle cx="68" cy="38" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="68" cy="38" r="3" fill="currentColor"/>
+          {/* Sliding door track */}
+          <line x1="35" y1="32" x2="55" y2="32" stroke="currentColor" strokeWidth="1.5"/>
+        </g>
       </svg>
     )
   },
   { 
-    id: 'empty1', 
-    label: '', 
-    icon: null
+    id: 'sports', 
+    label: 'Sports cars', 
+    icon: (
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* Sports car - very low, aggressive stance */}
+        <g transform="translate(10, 32)">
+          {/* Main body - very low profile */}
+          <path d="M15 30 L15 28 L20 26 L35 20 L65 20 L75 24 L82 28 L82 30 L82 36 L15 36 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Hood vents */}
+          <line x1="25" y1="28" x2="30" y2="28" stroke="currentColor" strokeWidth="1"/>
+          <line x1="25" y1="30" x2="30" y2="30" stroke="currentColor" strokeWidth="1"/>
+          {/* Windows - minimal, aggressive angle */}
+          <path d="M38 24 L38 28 L58 28 L56 24 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Spoiler */}
+          <path d="M78 24 L82 22 L82 24" stroke="currentColor" strokeWidth="1.5"/>
+          {/* Wheels */}
+          <circle cx="28" cy="36" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="28" cy="36" r="3" fill="currentColor"/>
+          <circle cx="70" cy="36" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="70" cy="36" r="3" fill="currentColor"/>
+        </g>
+      </svg>
+    )
   },
   { 
-    id: 'empty2', 
-    label: '', 
-    icon: null
+    id: 'convertible', 
+    label: 'Convertibles', 
+    icon: (
+      <svg viewBox="0 0 120 80" fill="none" className="w-24 h-16">
+        {/* Convertible - open top design */}
+        <g transform="translate(10, 30)">
+          {/* Main body - no roof */}
+          <path d="M18 30 L18 28 L22 26 L25 24 L75 24 L78 26 L82 28 L82 30 L82 36 L18 36 Z" 
+                fill="white" stroke="currentColor" strokeWidth="2"/>
+          {/* Windscreen frame */}
+          <path d="M30 24 L32 18 L34 18 L36 24" stroke="currentColor" strokeWidth="2"/>
+          {/* Soft top (folded down) indication */}
+          <path d="M65 26 L70 26 L72 24 L74 24" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2 2"/>
+          {/* Interior seats visible */}
+          <rect x="35" y="27" width="8" height="4" fill="none" stroke="currentColor" strokeWidth="1"/>
+          <rect x="50" y="27" width="8" height="4" fill="none" stroke="currentColor" strokeWidth="1"/>
+          {/* Wheels */}
+          <circle cx="28" cy="36" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="28" cy="36" r="3" fill="currentColor"/>
+          <circle cx="70" cy="36" r="6" fill="white" stroke="currentColor" strokeWidth="2"/>
+          <circle cx="70" cy="36" r="3" fill="currentColor"/>
+          {/* Door handle */}
+          <rect x="40" y="32" width="10" height="1.5" fill="currentColor"/>
+        </g>
+      </svg>
+    )
   },
 ]
 
@@ -441,45 +576,37 @@ export default function DiscoverPage() {
                 <button
                   key={type.id}
                   type="button"
-                  onClick={() => type.id.startsWith('empty') ? null : toggleBodyType(type.id)}
+                  onClick={() => toggleBodyType(type.id)}
                   className={cn(
-                    "group relative p-6 rounded-xl border transition-all bg-white min-h-[120px]",
-                    type.id.startsWith('empty') 
-                      ? "border-neutral-200 cursor-default"
-                      : selectedBodyTypes.includes(type.id)
+                    "group relative p-6 rounded-2xl border-2 transition-all bg-white min-h-[140px]",
+                    selectedBodyTypes.includes(type.id)
                       ? "border-brand bg-brand/5"
                       : "border-neutral-200 hover:border-neutral-300"
                   )}
                 >
                   {/* Checkbox in top-left corner */}
                   <div className={cn(
-                    "absolute top-3 left-3 w-5 h-5 rounded border-2 flex items-center justify-center transition-all",
-                    type.id.startsWith('empty')
-                      ? "border-neutral-300"
-                      : selectedBodyTypes.includes(type.id)
+                    "absolute top-4 left-4 w-5 h-5 rounded border-2 flex items-center justify-center transition-all",
+                    selectedBodyTypes.includes(type.id)
                       ? "bg-brand border-brand"
                       : "border-neutral-400 group-hover:border-neutral-600"
                   )}>
-                    {!type.id.startsWith('empty') && selectedBodyTypes.includes(type.id) && (
+                    {selectedBodyTypes.includes(type.id) && (
                       <Check className="h-3 w-3 text-white" />
                     )}
                   </div>
                   
                   {/* Centered content */}
-                  <div className="flex flex-col items-center justify-center h-full pt-8">
-                    {/* Icon centered - only show if not empty */}
-                    {type.icon && (
-                      <div className="text-blue-800 mb-3">
-                        {type.icon}
-                      </div>
-                    )}
+                  <div className="flex flex-col items-center justify-center h-full">
+                    {/* Icon centered */}
+                    <div className="text-neutral-700 mb-3">
+                      {type.icon}
+                    </div>
                     
-                    {/* Label centered - only show if not empty */}
-                    {type.label && (
-                      <p className="font-medium text-neutral-900 text-center text-sm">
-                        {type.label}
-                      </p>
-                    )}
+                    {/* Label centered */}
+                    <p className="font-medium text-neutral-900 text-center text-sm">
+                      {type.label}
+                    </p>
                   </div>
                 </button>
               ))}

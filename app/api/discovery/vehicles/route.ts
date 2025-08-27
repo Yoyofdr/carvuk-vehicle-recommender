@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { autoPressService } from '@/lib/services/AutoPressService'
 
+export const dynamic = 'force-dynamic'
+
 // Define interfaces for our response
 interface VehicleResult {
   id: string
