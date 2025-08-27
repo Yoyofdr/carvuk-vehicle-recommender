@@ -1,0 +1,304 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================
+// MODELS
+// =====================================================
+
+model Customer {
+  id                     String                 @id @default(uuid())
+  email                  String                 @unique
+  firstName              String                 @map("first_name")
+  lastName               String                 @map("last_name")
+  phone                  String?
+  rut                    String?                @unique
+  address                String?
+  city                   String?
+  region                 String?
+  preferredContactMethod String                 @default("email") @map("preferred_contact_method")
+  createdAt              DateTime               @default(now()) @map("created_at")
+  updatedAt              DateTime               @updatedAt @map("updated_at")
+
+  // Relations
+  preferences    CustomerPreference[]
+  leads          Lead[]
+  searchHistory  SearchHistory[]
+  favorites      Favorite[]
+  comparisons    Comparison[]
+
+  @@map("customers")
+}
+
+model Vehicle {
+  id                   String      @id @default(uuid())
+  idVersion            Int         @unique @map("id_version")
+  marca                String
+  modelo               String
+  version              String?
+  ano                  Int
+  generacion           String?
+  carroceria           String?
+  motor                String?
+  combustible          String?
+  transmision          String?
+  puertas              Int?
+  tipo                 String?
+  segmento             String?
+  
+  // Precios y valuaciones
+  precioComercial      Decimal?    @map("precio_comercial") @db.Decimal(12, 2)
+  precioHistorico      Decimal?    @map("precio_historico") @db.Decimal(12, 2)
+  valorComercial       Decimal?    @map("valor_comercial") @db.Decimal(12, 2)
+  valorMinimo          Decimal?    @map("valor_minimo") @db.Decimal(12, 2)
+  valorMaximo          Decimal?    @map("valor_maximo") @db.Decimal(12, 2)
+  fechaTasacion        DateTime?   @map("fecha_tasacion")
+  
+  // Información fiscal
+  anoInfoFiscal        String?     @map("ano_info_fiscal")
+  tasacionFiscal       Decimal?    @map("tasacion_fiscal") @db.Decimal(12, 2)
+  permisoCirculacion   Decimal?    @map("permiso_circulacion") @db.Decimal(12, 2)
+  codigoSii            String?     @map("codigo_sii")
+  
+  // Metadata
+  masProbable          Boolean     @default(false) @map("mas_probable")
+  flujoUsadosHabilitado Boolean    @default(false) @map("flujo_usados_habilitado")
+  createdAt            DateTime    @default(now()) @map("created_at")
+  updatedAt            DateTime    @updatedAt @map("updated_at")
+
+  // Relations
+  valuations      Valuation[]
+  leads           Lead[]
+  quotes          Quote[]
+  favorites       Favorite[]
+  comparisons     Comparison[]
+
+  @@unique([marca, modelo, version, ano])
+  @@index([marca, modelo])
+  @@index([precioComercial])
+  @@index([carroceria])
+  @@index([combustible])
+  @@index([ano])
+  @@map("vehicles")
+}
+
+model Valuation {
+  id                      String    @id @default(uuid())
+  vehicleId               String    @map("vehicle_id")
+  precioAutopress         Decimal   @map("precio_autopress") @db.Decimal(12, 2)
+  precioAutopressHistorico Decimal? @map("precio_autopress_historico") @db.Decimal(12, 2)
+  valorComercial          Decimal   @map("valor_comercial") @db.Decimal(12, 2)
+  valorMinimo             Decimal?  @map("valor_minimo") @db.Decimal(12, 2)
+  valorMaximo             Decimal?  @map("valor_maximo") @db.Decimal(12, 2)
+  fechaTasacion           DateTime  @map("fecha_tasacion")
+  moneda                  String    @default("CLP")
+  fuente                  String    @default("AutoPress")
+  createdAt               DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@map("valuations")
+}
+
+model CustomerPreference {
+  id              String    @id @default(uuid())
+  customerId      String    @map("customer_id")
+  
+  // Presupuesto
+  paymentMode     String    @default("cash") @map("payment_mode")
+  minPrice        Decimal?  @map("min_price") @db.Decimal(12, 2)
+  maxPrice        Decimal?  @map("max_price") @db.Decimal(12, 2)
+  
+  // Preferencias de vehículo
+  bodyTypes       String[]  @map("body_types")
+  fuelTypes       String[]  @map("fuel_types")
+  transmissionTypes String[] @map("transmission_types")
+  brands          String[]
+  
+  // Características deseadas
+  features        String[]
+  doorsMin        Int?      @map("doors_min")
+  doorsMax        Int?      @map("doors_max")
+  segment         String?
+  vehicleType     String?   @map("vehicle_type")
+  
+  // Uso previsto
+  primaryUse      String?   @map("primary_use")
+  passengersNeeded Int?     @map("passengers_needed")
+  cargoPriority   Boolean   @default(false) @map("cargo_priority")
+  
+  // Metadata
+  searchName      String?   @map("search_name")
+  isActive        Boolean   @default(true) @map("is_active")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  leads    Lead[]
+
+  @@index([customerId])
+  @@index([isActive])
+  @@map("customer_preferences")
+}
+
+
+model Lead {
+  id              String    @id @default(uuid())
+  customerId      String    @map("customer_id")
+  vehicleId       String?   @map("vehicle_id")
+  preferenceId    String?   @map("preference_id")
+  
+  // Estado del lead
+  leadStatus      String    @default("new") @map("lead_status")
+  leadSource      String?   @map("lead_source")
+  leadScore       Int       @default(0) @map("lead_score")
+  
+  // Información de contacto
+  contactDate     DateTime? @map("contact_date")
+  contactTime     DateTime? @map("contact_time")
+  contactMethod   String?   @map("contact_method")
+  
+  // Seguimiento
+  followUpDate    DateTime? @map("follow_up_date")
+  followUpNotes   String?   @map("follow_up_notes")
+  lastContactDate DateTime? @map("last_contact_date")
+  contactAttempts Int       @default(0) @map("contact_attempts")
+  
+  // Asignación
+  salesRepId      String?   @map("sales_rep_id")
+  salesRepName    String?   @map("sales_rep_name")
+  
+  // Resultado
+  wonDate         DateTime? @map("won_date")
+  lostReason      String?   @map("lost_reason")
+  finalPrice      Decimal?  @map("final_price") @db.Decimal(12, 2)
+  commissionAmount Decimal? @map("commission_amount") @db.Decimal(12, 2)
+  
+  // Metadata
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  customer     Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  vehicle      Vehicle?            @relation(fields: [vehicleId], references: [id])
+  preference   CustomerPreference? @relation(fields: [preferenceId], references: [id])
+  interactions LeadInteraction[]
+  quotes       Quote[]
+
+  @@index([customerId])
+  @@index([vehicleId])
+  @@index([leadStatus])
+  @@index([createdAt])
+  @@map("leads")
+}
+
+model LeadInteraction {
+  id              String    @id @default(uuid())
+  leadId          String    @map("lead_id")
+  interactionType String?   @map("interaction_type")
+  interactionDate DateTime  @default(now()) @map("interaction_date")
+  notes           String?
+  outcome         String?
+  nextAction      String?   @map("next_action")
+  createdBy       String?   @map("created_by")
+
+  // Relations
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@map("lead_interactions")
+}
+
+model Quote {
+  id              String    @id @default(uuid())
+  leadId          String    @map("lead_id")
+  vehicleId       String?   @map("vehicle_id")
+  
+  // Precios
+  basePrice       Decimal   @map("base_price") @db.Decimal(12, 2)
+  discountAmount  Decimal?  @map("discount_amount") @db.Decimal(12, 2)
+  finalPrice      Decimal   @map("final_price") @db.Decimal(12, 2)
+  
+  // Financiamiento
+  financingOption String?   @map("financing_option")
+  downPayment     Decimal?  @map("down_payment") @db.Decimal(12, 2)
+  monthlyPayment  Decimal?  @map("monthly_payment") @db.Decimal(12, 2)
+  interestRate    Decimal?  @map("interest_rate") @db.Decimal(5, 2)
+  termMonths      Int?      @map("term_months")
+  
+  // Estado
+  quoteStatus     String    @default("active") @map("quote_status")
+  validUntil      DateTime? @map("valid_until")
+  
+  // Extras
+  includesInsurance Boolean  @default(false) @map("includes_insurance")
+  includesWarranty  Boolean  @default(false) @map("includes_warranty")
+  additionalServices String[] @map("additional_services")
+  
+  // Metadata
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  lead    Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  vehicle Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  @@map("quotes")
+}
+
+model SearchHistory {
+  id            String    @id @default(uuid())
+  customerId    String    @map("customer_id")
+  searchFilters Json      @map("search_filters")
+  resultsCount  Int?      @map("results_count")
+  selectedVehicles String[] @map("selected_vehicles")
+  searchDate    DateTime  @default(now()) @map("search_date")
+
+  // Relations
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([searchDate])
+  @@map("search_history")
+}
+
+model Favorite {
+  id         String    @id @default(uuid())
+  customerId String    @map("customer_id")
+  vehicleId  String    @map("vehicle_id")
+  notes      String?
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  vehicle  Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, vehicleId])
+  @@index([customerId])
+  @@index([vehicleId])
+  @@map("favorites")
+}
+
+model Comparison {
+  id              String    @id @default(uuid())
+  customerId      String    @map("customer_id")
+  vehicleIds      String[]  @map("vehicle_ids")
+  comparisonDate  DateTime  @default(now()) @map("comparison_date")
+  winnerVehicleId String?   @map("winner_vehicle_id")
+  comparisonNotes String?   @map("comparison_notes")
+
+  // Relations
+  customer      Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  winnerVehicle Vehicle?  @relation(fields: [winnerVehicleId], references: [id])
+
+  @@map("comparisons")
+}
