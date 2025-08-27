@@ -1,0 +1,533 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { ArrowLeft, ArrowRight, Info, Check } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { formatCLP } from '@/lib/utils/currency'
+
+// Types
+type PaymentMode = 'monthly' | 'cash'
+type Step = 'budget' | 'bodyType' | 'fuel' | 'features' | 'brand'
+
+// Constants
+const STEPS: Step[] = ['budget', 'bodyType', 'fuel', 'features', 'brand']
+
+const BODY_TYPES = [
+  { id: 'suv', label: 'SUV', icon: '🚙', desc: 'Alto y espacioso' },
+  { id: 'sedan', label: 'Sedán', icon: '🚗', desc: 'Clásico y elegante' },
+  { id: 'hatchback', label: 'Hatchback', icon: '🚗', desc: 'Compacto y ágil' },
+  { id: 'pickup', label: 'Pickup', icon: '🛻', desc: 'Potente y versátil' },
+  { id: 'coupe', label: 'Coupé', icon: '🏎️', desc: 'Deportivo' },
+  { id: 'minivan', label: 'Minivan', icon: '🚐', desc: 'Familiar' },
+]
+
+const FUEL_TYPES = [
+  { id: 'gasoline', label: 'Bencina', icon: '⛽', desc: 'El más común, amplia red de estaciones' },
+  { id: 'diesel', label: 'Diésel', icon: '🛢️', desc: 'Mayor rendimiento en carretera' },
+  { id: 'hybrid', label: 'Híbrido', icon: '🔋', desc: 'Combina motor y electricidad' },
+  { id: 'electric', label: 'Eléctrico', icon: '⚡', desc: '100% ecológico, cero emisiones' },
+]
+
+const FEATURES = [
+  { id: 'economy', label: 'Economía', icon: '💰', desc: 'Bajo consumo y mantenimiento' },
+  { id: 'space', label: 'Espacio', icon: '📦', desc: 'Amplitud interior y maletero' },
+  { id: 'performance', label: 'Prestaciones', icon: '🏁', desc: 'Potencia y deportividad' },
+  { id: 'safety', label: 'Seguridad', icon: '🛡️', desc: 'Máxima protección' },
+  { id: 'technology', label: 'Tecnología', icon: '📱', desc: 'Conectividad y asistentes' },
+  { id: 'comfort', label: 'Confort', icon: '🛋️', desc: 'Comodidad y equipamiento' },
+]
+
+const BRANDS = [
+  'Toyota', 'Chevrolet', 'Nissan', 'Hyundai',
+  'Mazda', 'Volkswagen', 'Kia', 'Suzuki',
+  'Ford', 'Honda', 'Mitsubishi', 'Peugeot'
+]
+
+const SUGGESTED_RANGES = {
+  monthly: [
+    { min: 200000, max: 400000, label: 'Económico' },
+    { min: 400000, max: 800000, label: 'Medio' },
+    { min: 800000, max: 1500000, label: 'Premium' }
+  ],
+  cash: [
+    { min: 8000000, max: 15000000, label: 'Económico' },
+    { min: 15000000, max: 35000000, label: 'Medio' },
+    { min: 35000000, max: 75000000, label: 'Premium' }
+  ]
+}
+
+export default function DiscoverPage() {
+  const router = useRouter()
+  
+  // State
+  const [currentStep, setCurrentStep] = useState<Step>('budget')
+  const [paymentMode, setPaymentMode] = useState<PaymentMode>('cash')
+  const [budgetValues, setBudgetValues] = useState({ min: '', max: '' })
+  const [selectedBodyType, setSelectedBodyType] = useState<string | null>(null)
+  const [selectedFuel, setSelectedFuel] = useState<string | null>(null)
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([])
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null)
+  const [, forceUpdate] = useState(0)
+
+  // Computed values
+  const currentStepIndex = STEPS.indexOf(currentStep)
+  const progress = ((currentStepIndex + 1) / STEPS.length) * 100
+  const suggestedRanges = SUGGESTED_RANGES[paymentMode]
+  const isLastStep = currentStepIndex === STEPS.length - 1
+
+  // Helper functions
+  const getBudgetInputValues = () => {
+    if (typeof document === 'undefined') return { min: '', max: '' }
+    
+    const minInput = document.getElementById('min-budget') as HTMLInputElement
+    const maxInput = document.getElementById('max-budget') as HTMLInputElement
+    
+    if (!minInput || !maxInput) return { min: '', max: '' }
+    
+    return {
+      min: minInput.value.replace(/\D/g, ''),
+      max: maxInput.value.replace(/\D/g, '')
+    }
+  }
+
+  const isBudgetValid = () => {
+    const { min: minVal, max: maxVal } = getBudgetInputValues()
+    const min = parseInt(minVal)
+    const max = parseInt(maxVal)
+    return minVal.length > 0 && maxVal.length > 0 && !isNaN(min) && !isNaN(max) && min > 0 && max > min
+  }
+
+  const canContinue = () => {
+    switch (currentStep) {
+      case 'budget': return isBudgetValid()
+      case 'bodyType': return selectedBodyType !== null
+      case 'fuel': return selectedFuel !== null
+      case 'features': return selectedFeatures.length > 0
+      case 'brand': return true
+      default: return false
+    }
+  }
+
+  // Event handlers
+  const handleNext = () => {
+    // Save budget values when moving from budget step
+    if (currentStep === 'budget') {
+      setBudgetValues(getBudgetInputValues())
+    }
+
+    if (!isLastStep) {
+      setCurrentStep(STEPS[currentStepIndex + 1])
+    } else {
+      // Save data and navigate to results
+      const data = {
+        paymentMode,
+        budget: budgetValues.min && budgetValues.max ? { 
+          min: parseInt(budgetValues.min), 
+          max: parseInt(budgetValues.max)
+        } : null,
+        bodyType: selectedBodyType,
+        fuel: selectedFuel,
+        features: selectedFeatures,
+        brand: selectedBrand
+      }
+      
+      localStorage.setItem('carDiscovery', JSON.stringify(data))
+      router.push('/descubre/resultados')
+    }
+  }
+
+  const handleBack = () => {
+    if (currentStepIndex > 0) {
+      setCurrentStep(STEPS[currentStepIndex - 1])
+    } else {
+      router.push('/')
+    }
+  }
+
+  const handleBudgetInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '')
+    e.target.value = value
+    forceUpdate(prev => prev + 1) // Force re-render to update button state
+  }
+
+  const handlePaymentModeChange = (mode: PaymentMode) => {
+    setPaymentMode(mode)
+    // Clear budget inputs
+    const minInput = document.getElementById('min-budget') as HTMLInputElement
+    const maxInput = document.getElementById('max-budget') as HTMLInputElement
+    if (minInput && maxInput) {
+      minInput.value = ''
+      maxInput.value = ''
+    }
+    forceUpdate(prev => prev + 1)
+  }
+
+  const fillBudgetRange = (min: number, max: number) => {
+    const minInput = document.getElementById('min-budget') as HTMLInputElement
+    const maxInput = document.getElementById('max-budget') as HTMLInputElement
+    if (minInput && maxInput) {
+      minInput.value = min.toString()
+      maxInput.value = max.toString()
+      forceUpdate(prev => prev + 1)
+    }
+  }
+
+  const toggleFeature = (featureId: string) => {
+    setSelectedFeatures(prev => 
+      prev.includes(featureId) 
+        ? prev.filter(f => f !== featureId)
+        : [...prev, featureId]
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-neutral-50">
+      {/* Header */}
+      <header className="bg-white border-b border-neutral-200 sticky top-0 z-40">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              <span className="font-medium">Atrás</span>
+            </button>
+            
+            <div className="text-center">
+              <h1 className="text-lg font-bold text-neutral-900">Encuentra tu auto ideal</h1>
+              <p className="text-sm text-neutral-600">Paso {currentStepIndex + 1} de {STEPS.length}</p>
+            </div>
+            
+            <div className="w-20" />
+          </div>
+        </div>
+      </header>
+
+      {/* Progress Bar */}
+      <div className="bg-white border-b border-neutral-200">
+        <div className="container mx-auto px-4 py-3">
+          <div className="w-full bg-neutral-200 rounded-full h-2">
+            <div 
+              className="bg-brand h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Budget Step */}
+        {currentStep === 'budget' && (
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-neutral-900 mb-3">
+                ¿Cuál es tu presupuesto?
+              </h2>
+              <p className="text-lg text-neutral-600">
+                Ingresa el rango de precio que estás dispuesto a pagar
+              </p>
+            </div>
+
+            {/* Payment Mode Toggle */}
+            <div className="flex justify-center">
+              <div className="inline-flex rounded-xl bg-neutral-100 p-1">
+                <button
+                  type="button"
+                  onClick={() => handlePaymentModeChange('monthly')}
+                  className={cn(
+                    "px-6 py-2 rounded-lg font-medium transition-all",
+                    paymentMode === 'monthly'
+                      ? "bg-white text-neutral-900 shadow-sm"
+                      : "text-neutral-600"
+                  )}
+                >
+                  Pago Mensual
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePaymentModeChange('cash')}
+                  className={cn(
+                    "px-6 py-2 rounded-lg font-medium transition-all",
+                    paymentMode === 'cash'
+                      ? "bg-white text-neutral-900 shadow-sm"
+                      : "text-neutral-600"
+                  )}
+                >
+                  Pago Contado
+                </button>
+              </div>
+            </div>
+
+            {/* Budget Input Fields */}
+            <div className="bg-white rounded-xl p-6 border border-neutral-200">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="min-budget" className="block text-sm font-medium text-neutral-700 mb-2">
+                    Precio mínimo {paymentMode === 'monthly' ? 'mensual' : ''}
+                  </label>
+                  <input
+                    id="min-budget"
+                    type="text"
+                    inputMode="numeric"
+                    onInput={handleBudgetInput}
+                    placeholder={paymentMode === 'monthly' ? '200000' : '8000000'}
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand text-lg"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="max-budget" className="block text-sm font-medium text-neutral-700 mb-2">
+                    Precio máximo {paymentMode === 'monthly' ? 'mensual' : ''}
+                  </label>
+                  <input
+                    id="max-budget"
+                    type="text"
+                    inputMode="numeric"
+                    onInput={handleBudgetInput}
+                    placeholder={paymentMode === 'monthly' ? '1500000' : '50000000'}
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand text-lg"
+                  />
+                </div>
+              </div>
+
+              {/* Suggested Ranges */}
+              <div className="mt-6">
+                <p className="text-sm text-neutral-600 mb-3">Rangos sugeridos:</p>
+                <div className="flex gap-3 flex-wrap">
+                  {suggestedRanges.map((range) => (
+                    <button
+                      key={range.label}
+                      type="button"
+                      onClick={() => fillBudgetRange(range.min, range.max)}
+                      className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-lg text-sm font-medium transition-all"
+                    >
+                      {range.label}: {formatCLP(range.min)} - {formatCLP(range.max)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Body Type Step */}
+        {currentStep === 'bodyType' && (
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-neutral-900 mb-3">
+                ¿Qué tipo de auto buscas?
+              </h2>
+              <p className="text-lg text-neutral-600">
+                Selecciona el tipo de carrocería que prefieres
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4">
+              {BODY_TYPES.map((type) => (
+                <button
+                  key={type.id}
+                  type="button"
+                  onClick={() => setSelectedBodyType(type.id)}
+                  className={cn(
+                    "p-6 rounded-xl border-2 text-center transition-all relative",
+                    selectedBodyType === type.id
+                      ? "border-brand bg-brand/5"
+                      : "border-neutral-200 hover:border-neutral-300 bg-white"
+                  )}
+                >
+                  {selectedBodyType === type.id && (
+                    <div className="absolute top-3 right-3 w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                  <div className="text-4xl mb-3">{type.icon}</div>
+                  <p className="font-semibold text-neutral-900 mb-1">{type.label}</p>
+                  <p className="text-xs text-neutral-600">{type.desc}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Fuel Type Step */}
+        {currentStep === 'fuel' && (
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-neutral-900 mb-3">
+                ¿Qué combustible prefieres?
+              </h2>
+              <p className="text-lg text-neutral-600">
+                Elige según tu estilo de conducción y economía
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              {FUEL_TYPES.map((fuel) => (
+                <button
+                  key={fuel.id}
+                  type="button"
+                  onClick={() => setSelectedFuel(fuel.id)}
+                  className={cn(
+                    "p-6 rounded-xl border-2 transition-all relative text-left",
+                    selectedFuel === fuel.id
+                      ? "border-brand bg-brand/5"
+                      : "border-neutral-200 hover:border-neutral-300 bg-white"
+                  )}
+                >
+                  {selectedFuel === fuel.id && (
+                    <div className="absolute top-3 right-3 w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-4">
+                    <div className="text-3xl">{fuel.icon}</div>
+                    <div>
+                      <p className="font-semibold text-neutral-900">{fuel.label}</p>
+                      <p className="text-sm text-neutral-600">{fuel.desc}</p>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Features Step */}
+        {currentStep === 'features' && (
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-neutral-900 mb-3">
+                ¿Qué es importante para ti?
+              </h2>
+              <p className="text-lg text-neutral-600">
+                Selecciona todas las características que consideres importantes
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              {FEATURES.map((feature) => (
+                <button
+                  key={feature.id}
+                  type="button"
+                  onClick={() => toggleFeature(feature.id)}
+                  className={cn(
+                    "p-6 rounded-xl border-2 transition-all relative text-left",
+                    selectedFeatures.includes(feature.id)
+                      ? "border-brand bg-brand/5"
+                      : "border-neutral-200 hover:border-neutral-300 bg-white"
+                  )}
+                >
+                  {selectedFeatures.includes(feature.id) && (
+                    <div className="absolute top-3 right-3 w-6 h-6 bg-brand rounded-full flex items-center justify-center">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-4">
+                    <div className="text-3xl">{feature.icon}</div>
+                    <div>
+                      <p className="font-semibold text-neutral-900">{feature.label}</p>
+                      <p className="text-sm text-neutral-600">{feature.desc}</p>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Brand Step */}
+        {currentStep === 'brand' && (
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-neutral-900 mb-3">
+                ¿Tienes alguna marca preferida?
+              </h2>
+              <p className="text-lg text-neutral-600">
+                O déjanos sugerirte las mejores opciones
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedBrand(null)
+                handleNext()
+              }}
+              className="w-full p-6 rounded-xl border-2 border-neutral-200 hover:border-neutral-300 bg-white transition-all"
+            >
+              <p className="text-xl font-semibold text-neutral-900 mb-2">
+                No tengo preferencia
+              </p>
+              <p className="text-sm text-neutral-600">
+                Muéstrame las mejores opciones de todas las marcas
+              </p>
+            </button>
+
+            <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
+              {BRANDS.map((brand) => (
+                <button
+                  key={brand}
+                  type="button"
+                  onClick={() => {
+                    setSelectedBrand(brand)
+                    handleNext()
+                  }}
+                  className={cn(
+                    "p-4 rounded-lg border transition-all",
+                    selectedBrand === brand
+                      ? "border-brand bg-brand/5"
+                      : "border-neutral-200 hover:border-neutral-300 bg-white"
+                  )}
+                >
+                  <p className="font-medium text-neutral-900 text-center">{brand}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Navigation Buttons */}
+        <div className="mt-12 flex justify-between">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="px-6 py-3 rounded-xl font-medium border border-neutral-300 text-neutral-700 hover:bg-neutral-50 transition-all"
+          >
+            Anterior
+          </button>
+
+          {currentStep !== 'brand' && (
+            <button
+              type="button"
+              onClick={handleNext}
+              disabled={!canContinue()}
+              className={cn(
+                "px-8 py-3 rounded-xl font-medium transition-all flex items-center gap-2",
+                canContinue()
+                  ? "bg-brand text-white hover:bg-brand/90"
+                  : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
+              )}
+            >
+              <span>{isLastStep ? 'Ver resultados' : 'Siguiente'}</span>
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+      </main>
+
+      {/* Help Button */}
+      <div className="fixed bottom-8 right-8">
+        <button
+          type="button"
+          className="bg-white rounded-full shadow-lg p-4 hover:shadow-xl transition-all"
+        >
+          <Info className="h-6 w-6 text-brand" />
+        </button>
+      </div>
+    </div>
+  )
+}
