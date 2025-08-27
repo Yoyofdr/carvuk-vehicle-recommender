@@ -14,12 +14,96 @@ type Step = 'budget' | 'bodyType' | 'fuel' | 'features' | 'brand'
 const STEPS: Step[] = ['budget', 'bodyType', 'fuel', 'features', 'brand']
 
 const BODY_TYPES = [
-  { id: 'suv', label: 'SUV', icon: '🚙', desc: 'Alto y espacioso' },
-  { id: 'sedan', label: 'Sedán', icon: '🚗', desc: 'Clásico y elegante' },
-  { id: 'hatchback', label: 'Hatchback', icon: '🚗', desc: 'Compacto y ágil' },
-  { id: 'pickup', label: 'Pickup', icon: '🛻', desc: 'Potente y versátil' },
-  { id: 'coupe', label: 'Coupé', icon: '🏎️', desc: 'Deportivo' },
-  { id: 'minivan', label: 'Minivan', icon: '🚐', desc: 'Familiar' },
+  { 
+    id: 'suv', 
+    label: 'SUV y 4x4', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M5 11h14l-1-4H6l-1 4zm14 0v6a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-6m14 0H5m0 0l1-4m0 0h12m0 0l1 4" />
+        <circle cx="7.5" cy="14.5" r="1.5" />
+        <circle cx="16.5" cy="14.5" r="1.5" />
+      </svg>
+    )
+  },
+  { 
+    id: 'sedan', 
+    label: 'Berlina', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M4 11h16l-1.5-4h-13L4 11zm16 0v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H7v1a1 1 0 01-1 1H5a1 1 0 01-1-1v-5m16 0H4" />
+        <circle cx="7.5" cy="13.5" r="1.5" />
+        <circle cx="16.5" cy="13.5" r="1.5" />
+      </svg>
+    )
+  },
+  { 
+    id: 'minivan', 
+    label: 'Monovolumen', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M4 11h16v-3a2 2 0 00-2-2H6a2 2 0 00-2 2v3zm16 0v6a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H7v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-6m16 0H4" />
+        <circle cx="7.5" cy="14.5" r="1.5" />
+        <circle cx="16.5" cy="14.5" r="1.5" />
+        <rect x="7" y="7" width="3" height="3" rx="0.5" />
+        <rect x="14" y="7" width="3" height="3" rx="0.5" />
+      </svg>
+    )
+  },
+  { 
+    id: 'hatchback', 
+    label: 'Urbano', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M5 11h14l-2-3.5h-10L5 11zm14 0v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-5m14 0H5" />
+        <circle cx="7.5" cy="13.5" r="1.5" />
+        <circle cx="16.5" cy="13.5" r="1.5" />
+      </svg>
+    )
+  },
+  { 
+    id: 'wagon', 
+    label: 'Ranchera', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M4 11h16l-1.5-4h-13L4 11zm16 0v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H7v1a1 1 0 01-1 1H5a1 1 0 01-1-1v-5m16 0H4m2-4l.5-1h11l.5 1" />
+        <circle cx="7.5" cy="13.5" r="1.5" />
+        <circle cx="16.5" cy="13.5" r="1.5" />
+      </svg>
+    )
+  },
+  { 
+    id: 'coupe', 
+    label: 'Deportivo', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M5 12h14l-2-4.5h-10L5 12zm14 0v4a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-4m14 0H5" />
+        <circle cx="7.5" cy="14.5" r="1.5" />
+        <circle cx="16.5" cy="14.5" r="1.5" />
+      </svg>
+    )
+  },
+  { 
+    id: 'convertible', 
+    label: 'Descapotable', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M5 13h14l-2-3h-10l-2 3zm14 0v4a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-4m14 0H5m3-3l1-2h6l1 2" />
+        <circle cx="7.5" cy="15.5" r="1.5" />
+        <circle cx="16.5" cy="15.5" r="1.5" />
+      </svg>
+    )
+  },
+  { 
+    id: 'commercial', 
+    label: 'Comercial', 
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12">
+        <path d="M5 11h14V8a1 1 0 00-1-1H6a1 1 0 00-1 1v3zm14 0v6a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H6a1 1 0 01-1-1v-6m14 0H5" />
+        <circle cx="7.5" cy="14.5" r="1.5" />
+        <circle cx="16.5" cy="14.5" r="1.5" />
+      </svg>
+    )
+  },
 ]
 
 const FUEL_TYPES = [
@@ -363,27 +447,42 @@ export default function DiscoverPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               {BODY_TYPES.map((type) => (
                 <button
                   key={type.id}
                   type="button"
                   onClick={() => toggleBodyType(type.id)}
                   className={cn(
-                    "p-6 rounded-xl border-2 text-center transition-all relative",
+                    "group relative p-6 rounded-xl border-2 transition-all bg-white",
                     selectedBodyTypes.includes(type.id)
                       ? "border-brand bg-brand/5"
-                      : "border-neutral-200 hover:border-neutral-300 bg-white"
+                      : "border-neutral-200 hover:border-neutral-300"
                   )}
                 >
-                  {selectedBodyTypes.includes(type.id) && (
-                    <div className="absolute top-3 right-3 w-6 h-6 bg-brand rounded-full flex items-center justify-center">
-                      <Check className="h-4 w-4 text-white" />
+                  <div className="flex items-center gap-4">
+                    {/* Checkbox */}
+                    <div className={cn(
+                      "w-5 h-5 rounded border-2 flex items-center justify-center transition-all",
+                      selectedBodyTypes.includes(type.id)
+                        ? "bg-brand border-brand"
+                        : "border-neutral-400 group-hover:border-neutral-600"
+                    )}>
+                      {selectedBodyTypes.includes(type.id) && (
+                        <Check className="h-3 w-3 text-white" />
+                      )}
                     </div>
-                  )}
-                  <div className="text-4xl mb-3">{type.icon}</div>
-                  <p className="font-semibold text-neutral-900 mb-1">{type.label}</p>
-                  <p className="text-xs text-neutral-600">{type.desc}</p>
+                    
+                    {/* Icon */}
+                    <div className="text-neutral-700">
+                      {type.icon}
+                    </div>
+                    
+                    {/* Label */}
+                    <p className="font-medium text-neutral-900 text-lg">
+                      {type.label}
+                    </p>
+                  </div>
                 </button>
               ))}
             </div>

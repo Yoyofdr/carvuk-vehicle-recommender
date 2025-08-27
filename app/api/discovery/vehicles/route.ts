@@ -32,17 +32,27 @@ const mapBodyType = (carroceria: string): string => {
   const map: Record<string, string> = {
     'Sedan': 'sedan',
     'Sedán': 'sedan',
+    'Berlina': 'sedan',
     'Hatchback': 'hatchback',
     'Station Wagon': 'wagon',
+    'Familiar': 'wagon',
+    'Ranchera': 'wagon',
     'SUV': 'suv',
+    'Todo Terreno': 'suv',
     'Pickup': 'pickup',
     'Camioneta': 'pickup',
     'Van': 'minivan',
     'Minivan': 'minivan',
+    'Monovolumen': 'minivan',
     'Coupe': 'coupe',
     'Coupé': 'coupe',
+    'Deportivo': 'coupe',
     'Convertible': 'convertible',
-    'Cabriolet': 'convertible'
+    'Cabriolet': 'convertible',
+    'Descapotable': 'convertible',
+    'Comercial': 'commercial',
+    'Furgón': 'commercial',
+    'Furgoneta': 'commercial'
   }
   return map[carroceria] || 'other'
 }
