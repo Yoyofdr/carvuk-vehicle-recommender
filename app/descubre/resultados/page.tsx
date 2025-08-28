@@ -102,15 +102,41 @@ export default function ResultadosPage() {
         let vehicles: Vehicle[] = []
         
         try {
-          // Try to fetch from API first (works in development)
-          const response = await fetch(`/api/discovery/vehicles?${params}`)
+          // Try the new filter API first
+          const filterPayload = {
+            minPrice: parsed.budget?.min,
+            maxPrice: parsed.budget?.max,
+            bodyTypes: parsed.bodyTypes,
+            fuelTypes: parsed.fuelTypes,
+            transmission: ['automatic'], // Default to automatic if not specified
+            brands: parsed.brands,
+            features: parsed.features,
+            paymentMode: parsed.paymentMode,
+            monthlyBudget: parsed.paymentMode === 'monthly' ? parsed.budget?.max : undefined
+          }
+          
+          const response = await fetch('/api/vehicles/filter', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(filterPayload)
+          })
           
           if (response.ok) {
             const result = await response.json()
             vehicles = result.vehicles || []
-            console.log('Vehicles fetched from API:', vehicles.length)
+            console.log('Vehicles fetched from new filter API:', vehicles.length)
           } else {
-            throw new Error('API not available')
+            // Fallback to old discovery API
+            const oldResponse = await fetch(`/api/discovery/vehicles?${params}`)
+            if (oldResponse.ok) {
+              const result = await oldResponse.json()
+              vehicles = result.vehicles || []
+              console.log('Vehicles fetched from discovery API:', vehicles.length)
+            } else {
+              throw new Error('API not available')
+            }
           }
         } catch (apiError) {
           // Fallback to mock data (for static deployment like GitHub Pages)
