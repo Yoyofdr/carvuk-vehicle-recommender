@@ -25,7 +25,6 @@ export interface ApiNinjasFilters {
   drive?: string
   cylinders?: number
   transmission?: string
-  limit?: number
 }
 
 export class ApiNinjasService {
@@ -64,7 +63,6 @@ export class ApiNinjasService {
       if (filters.drive) queryParams.append('drive', filters.drive)
       if (filters.cylinders) queryParams.append('cylinders', filters.cylinders.toString())
       if (filters.transmission) queryParams.append('transmission', filters.transmission)
-      if (filters.limit) queryParams.append('limit', filters.limit.toString())
 
       const url = `${this.baseUrl}?${queryParams.toString()}`
       
@@ -160,9 +158,7 @@ export class ApiNinjasService {
     minPrice?: number
     maxPrice?: number
   }): Promise<ApiNinjasVehicle[]> {
-    const filters: ApiNinjasFilters = {
-      limit: 50 // Get more results to filter locally
-    }
+    const filters: ApiNinjasFilters = {}
 
     // Map our fuel types to API-Ninjas format
     if (preferences.fuelTypes && preferences.fuelTypes.length > 0) {

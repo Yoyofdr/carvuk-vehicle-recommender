@@ -108,8 +108,7 @@ export class VehicleFilterService {
       
       for (const brand of criteria.brands) {
         const vehicles = await apiNinjasService.fetchVehicles({
-          make: brand,
-          limit: 30
+          make: brand
         })
         allVehicles.push(...vehicles)
       }
@@ -123,10 +122,9 @@ export class VehicleFilterService {
     const allVehicles: ApiNinjasVehicle[] = []
     
     // Fetch vehicles for popular makes (limit to avoid too many API calls)
-    for (const make of popularMakes.slice(0, 5)) {
+    for (const make of popularMakes.slice(0, 3)) { // Reduced to 3 brands for free tier
       const vehicles = await apiNinjasService.fetchVehicles({
-        make,
-        limit: 20
+        make
       })
       allVehicles.push(...vehicles)
     }
